@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>購買行動に関する実験 - 参加登録</title>
+<style>
+  :root{
+    --ink:#1c2b24;
+    --paper:#f6f4ee;
+    --line:#c9c2ae;
+    --accent:#2f5d4f;
+    --accent-soft:#e4ece7;
+    --error:#a3402f;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hiragino Sans","Yu Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .card{
+    width:100%;
+    max-width:460px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:40px 36px 32px;
+    position:relative;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:4px;
+    background:var(--accent);
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  h1{
+    font-size:22px;
+    line-height:1.5;
+    margin:0 0 14px;
+    font-weight:700;
+  }
+  p.desc{
+    font-size:14px;
+    line-height:1.8;
+    color:#4b554e;
+    margin:0 0 28px;
+  }
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  input[type="text"]{
+    width:100%;
+    font-size:16px;
+    padding:13px 14px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    background:var(--paper);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s;
+  }
+  input[type="text"]:focus{
+    border-color:var(--accent);
+    background:#fff;
+  }
+  .hint{
+    font-size:12px;
+    color:#7a8279;
+    margin-top:8px;
+  }
+  button{
+    width:100%;
+    margin-top:24px;
+    padding:14px;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.02em;
+    border:none;
+    border-radius:2px;
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+    transition:opacity .15s;
+  }
+  button:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+  }
+  .msg{
+    margin-top:16px;
+    font-size:13px;
+    line-height:1.7;
+    padding:12px 14px;
+    border-radius:2px;
+    display:none;
+  }
+  .msg.error{
+    display:block;
+    background:#fbeae6;
+    color:var(--error);
+    border:1px solid #e6c3ba;
+  }
+  .msg.loading{
+    display:block;
+    background:var(--accent-soft);
+    color:var(--accent);
+    border:1px solid #c7d9d0;
+  }
+  .footer-note{
+    margin-top:28px;
+    font-size:11px;
+    color:#9aa19a;
+    line-height:1.6;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="eyebrow">EXPERIMENT ENTRY / SITE 1</div>
+    <h1>購買行動に関する実験<br>参加登録</h1>
+    <p class="desc">
+      これから複数の画面に移動しながら、いくつかの商品についてお答えいただきます。<br>
+      まず、学生番号を入力してください。以降の画面でもこの番号があなたのIDとして使われます。
+    </p>
+
+    <form id="entryForm">
+      <label for="studentId">学生番号</label>
+      <input type="text" id="studentId" name="studentId" placeholder="例：24A1234B" autocomplete="off" required>
+      <div class="hint">半角英数字で入力してください。入力内容は研究目的以外には使用しません。</div>
+
+      <button type="submit" id="submitBtn">実験を始める</button>
+
+      <div class="msg" id="msgBox"></div>
+    </form>
+
+    <div class="footer-note">
+      本実験は卒業研究の一環として実施しています。回答は統計的に処理され、個人が特定される形で公開されることはありません。
+    </div>
+  </div>
+
+<script>
+  // ▼ GASデプロイ後に発行される「ウェブアプリのURL」に差し替えてください
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
+
+  // ▼ サイト2のURL（同一リポジトリ内のパスに合わせて調整してください）
+  const SITE2_URL = "../site2/index.html";
+
+  const form = document.getElementById('entryForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const msgBox = document.getElementById('msgBox');
+  const idInput = document.getElementById('studentId');
+
+  function showMessage(text, type){
+    msgBox.textContent = text;
+    msgBox.className = 'msg ' + type;
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const id = idInput.value.trim();
+    if(!id){ return; }
+
+    submitBtn.disabled = true;
+    showMessage('登録しています…', 'loading');
+
+    try{
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        // text/plain にすることでプリフライトを回避し、GAS側のCORS制約を避ける
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'register', id: id })
+      });
+
+      const data = await res.json();
+
+      if(data.status !== 'ok'){
+        showMessage(data.message || '登録に失敗しました。時間をおいて再度お試しください。', 'error');
+        submitBtn.disabled = false;
+        return;
+      }
+
+      // 以降のサイトへIDや割り当て情報を引き継ぐ
+      sessionStorage.setItem('experiment_id', data.id);
+      sessionStorage.setItem('experiment_group', data.group);
+      sessionStorage.setItem('experiment_good1', data.good1);
+      sessionStorage.setItem('experiment_good2', data.good2);
+      sessionStorage.setItem('experiment_currentGoodIndex', '1');
+
+      const query = new URLSearchParams({
+        id: data.id,
+        group: data.group,
+        good1: data.good1,
+        good2: data.good2,
+        current: '1'
+      });
+
+      window.location.href = SITE2_URL + '?' + query.toString();
+
+    }catch(err){
+      showMessage('通信エラーが発生しました。ネットワーク環境をご確認の上、再度お試しください。', 'error');
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
