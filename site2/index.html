@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>重要視する項目の選択</title>
+<style>
+  :root{
+    --ink:#1c2b24;
+    --paper:#f6f4ee;
+    --line:#c9c2ae;
+    --accent:#2f5d4f;
+    --accent-soft:#e4ece7;
+    --error:#a3402f;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hiragino Sans","Yu Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .card{
+    width:100%;
+    max-width:560px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:40px 36px 32px;
+    position:relative;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:4px;
+    background:var(--accent);
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  h1{
+    font-size:21px;
+    line-height:1.6;
+    margin:0 0 14px;
+    font-weight:700;
+  }
+  p.desc{
+    font-size:14px;
+    line-height:1.8;
+    color:#4b554e;
+    margin:0 0 26px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:14px 16px;
+    cursor:pointer;
+    transition:background .12s, border-color .12s;
+    background:var(--paper);
+  }
+  .option:hover{ border-color:var(--accent); }
+  .option.checked{
+    background:var(--accent-soft);
+    border-color:var(--accent);
+  }
+  .option.disabled{
+    opacity:.4;
+    cursor:not-allowed;
+  }
+  .option input{ display:none; }
+  .box{
+    width:20px; height:20px;
+    border:2px solid var(--line);
+    border-radius:3px;
+    flex:0 0 auto;
+    position:relative;
+  }
+  .option.checked .box{
+    border-color:var(--accent);
+    background:var(--accent);
+  }
+  .option.checked .box::after{
+    content:"";
+    position:absolute;
+    left:6px; top:2px;
+    width:5px; height:10px;
+    border:solid #fff;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+  .option .label{ font-size:15px; font-weight:600; }
+  .counter{
+    font-size:12px;
+    color:#7a8279;
+    margin-bottom:22px;
+  }
+  .counter b{ color:var(--accent); }
+  button{
+    width:100%;
+    padding:14px;
+    font-size:15px;
+    font-weight:700;
+    border:none;
+    border-radius:2px;
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+  }
+  button:disabled{ opacity:.4; cursor:not-allowed; }
+  .msg{
+    margin-top:16px;
+    font-size:13px;
+    line-height:1.7;
+    padding:12px 14px;
+    border-radius:2px;
+    display:none;
+  }
+  .msg.error{ display:block; background:#fbeae6; color:var(--error); border:1px solid #e6c3ba; }
+  .msg.loading{ display:block; background:var(--accent-soft); color:var(--accent); border:1px solid #c7d9d0; }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="eyebrow" id="eyebrow">SITE 2</div>
+    <h1 id="title">読み込み中…</h1>
+    <p class="desc" id="desc"></p>
+
+    <div class="options" id="options"></div>
+    <div class="counter" id="counter"></div>
+
+    <button id="nextBtn" disabled>次へ</button>
+    <div class="msg" id="msgBox"></div>
+  </div>
+
+<script>
+  // ▼ サイト3のURL
+  const SITE3_URL = "../site3/index.html";
+  // ▼ GASウェブアプリのURL（site1と同じもの）
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
+
+  // 財ごとの表示名・6属性（GAS側 ATTRIBUTES と対応させること）
+  const GOOD_LABELS = {
+    yogurt: 'ヨーグルト', rice: 'お米', wine: 'ワイン', chocolate: 'チョコレート'
+  };
+  const ATTRIBUTES = {
+    yogurt: { image:'画像', price:'価格', volume:'内容量', expiry:'消費期限', nutrition:'栄養情報', calorie:'カロリー' },
+    rice: { image:'画像', price:'価格', variety:'品種', volume:'内容量', harvest:'精米時期(新米/古米/古古米)', polish:'精米度合い(白米/無洗米/玄米)' },
+    wine: { image:'画像', price:'価格', origin:'ブドウ産地', abv:'アルコール度数', color:'色(赤/白/ロゼ/スパーク)', taste:'味わい(辛口/甘口)' },
+    chocolate: { image:'画像', price:'価格', cacao_percent:'カカオ量', cacao_origin:'カカオ産地', calorie:'カロリー', fairtrade:'フェアトレード有無' }
+  };
+
+  // --- パラメータ取得（URL優先、なければsessionStorageから復元） ---
+  const urlParams = new URLSearchParams(window.location.search);
+  function getParam(key){
+    return urlParams.get(key) || sessionStorage.getItem('experiment_' + key) || '';
+  }
+
+  const id = getParam('id');
+  const group = getParam('group');
+  const good1 = getParam('good1');
+  const good2 = getParam('good2');
+  const current = getParam('current') || '1';
+  const good = (current === '1') ? good1 : good2;
+
+  // 状態をsessionStorageに保存（このページ以降も引き継ぐ）
+  sessionStorage.setItem('experiment_id', id);
+  sessionStorage.setItem('experiment_group', group);
+  sessionStorage.setItem('experiment_good1', good1);
+  sessionStorage.setItem('experiment_good2', good2);
+  sessionStorage.setItem('experiment_current', current);
+
+  const titleEl = document.getElementById('title');
+  const descEl = document.getElementById('desc');
+  const optionsEl = document.getElementById('options');
+  const counterEl = document.getElementById('counter');
+  const nextBtn = document.getElementById('nextBtn');
+  const msgBox = document.getElementById('msgBox');
+
+  function showMessage(text, type){
+    msgBox.textContent = text;
+    msgBox.className = 'msg ' + type;
+  }
+
+  if(!id || !good || !ATTRIBUTES[good]){
+    titleEl.textContent = 'エラー';
+    descEl.textContent = '必要な情報が見つかりませんでした。最初のページからやり直してください。';
+  } else {
+    const goodLabel = GOOD_LABELS[good];
+    titleEl.textContent = goodLabel + 'について、重要視する項目を2つ選んでください';
+    descEl.textContent = goodLabel + 'を選ぶとき、以下の6つの項目のうち、あなたが特に重視するものを2つクリックしてください。';
+
+    const attrMap = ATTRIBUTES[good];
+    const keys = Object.keys(attrMap);
+    let selected = [];
+
+    keys.forEach(function(key){
+      const opt = document.createElement('label');
+      opt.className = 'option';
+      opt.dataset.key = key;
+      opt.innerHTML =
+        '<input type="checkbox" value="' + key + '">' +
+        '<span class="box"></span>' +
+        '<span class="label">' + attrMap[key] + '</span>';
+      opt.addEventListener('click', function(e){
+        e.preventDefault();
+        toggle(key, opt);
+      });
+      optionsEl.appendChild(opt);
+    });
+
+    function toggle(key, opt){
+      const idx = selected.indexOf(key);
+      if(idx >= 0){
+        selected.splice(idx, 1);
+        opt.classList.remove('checked');
+      } else {
+        if(selected.length >= 2) return;
+        selected.push(key);
+        opt.classList.add('checked');
+      }
+      updateState();
+    }
+
+    function updateState(){
+      counterEl.innerHTML = '選択中：<b>' + selected.length + ' / 2</b>';
+      nextBtn.disabled = (selected.length !== 2);
+      // 2つ選ばれたら他は選べないよう見た目を薄くする
+      Array.from(optionsEl.children).forEach(function(opt){
+        const key = opt.dataset.key;
+        const isChecked = selected.indexOf(key) >= 0;
+        if(selected.length >= 2 && !isChecked){
+          opt.classList.add('disabled');
+        } else {
+          opt.classList.remove('disabled');
+        }
+      });
+    }
+    updateState();
+
+    nextBtn.addEventListener('click', async function(){
+      if(selected.length !== 2) return;
+      nextBtn.disabled = true;
+      showMessage('記録しています…', 'loading');
+
+      try{
+        const res = await fetch(GAS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'submitImportance', id: id, good: good, items: selected })
+        });
+        const data = await res.json();
+
+        if(data.status !== 'ok'){
+          showMessage(data.message || '記録に失敗しました。', 'error');
+          nextBtn.disabled = false;
+          return;
+        }
+
+        const query = new URLSearchParams({
+          id: id, group: group, good1: good1, good2: good2, current: current, good: good
+        });
+        window.location.href = SITE3_URL + '?' + query.toString();
+
+      }catch(err){
+        showMessage('通信エラーが発生しました。再度お試しください。', 'error');
+        nextBtn.disabled = false;
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
