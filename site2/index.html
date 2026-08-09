@@ -277,7 +277,8 @@
         }
 
         const query = new URLSearchParams({
-          id: id, group: group, good1: good1, good2: good2, current: current, good: good
+          id: id, group: group, good1: good1, good2: good2, current: current,
+          good: good, item1: selected[0], item2: selected[1]
         });
         window.location.href = SITE3_URL + '?' + query.toString();
 
