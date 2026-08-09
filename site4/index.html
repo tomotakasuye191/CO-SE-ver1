@@ -295,7 +295,6 @@
   let baseItem = null;          // 最初(intro)で選んだ財
   let remainingSizes = [];      // ラウンド1の残りサイズ
   let round1Records = [];       // {size, presentedIds, kept, chosenId, chosenName}
-  let referenceForSize = {};    // ラウンド2で各サイズの左固定財として使う財（size -> product）
   let remainingSizes2 = [];     // ラウンド2の残りサイズ
   let round2Records = [];       // {size, presentedIds, commonIds, overrideFields, kept, chosenId, chosenName}
   let phase = 'intro';          // 'intro' | 'round1' | 'round2'
@@ -353,13 +352,6 @@
   // ============================================================
   function nextRound1Slide(){
     if(remainingSizes.length === 0){
-      // ラウンド1終了 → 各サイズの結果から、ラウンド2で使う基準財を決定
-      SIZES.forEach(function(size){
-        const rec = round1Records.find(function(r){ return r.size === size; });
-        referenceForSize[size] = rec.kept
-          ? baseItem
-          : products.find(function(p){ return p.id === rec.chosenId; });
-      });
       phase = 'round2';
       remainingSizes2 = shuffle(SIZES);
       renderRoundTransition();
@@ -447,11 +439,25 @@
   }
 
   function renderRound2Slide(size){
-    const ref = referenceForSize[size];
-    const pool = products.filter(function(p){ return p.id !== ref.id; });
-    const presented = sampleN(pool, size);
+    // 基準財(base)は常に左固定・無操作。ラウンド1の結果は「アンカー(似せる基準)」の決定にのみ使う。
+    const round1Rec = round1Records.find(function(r){ return r.size === size; });
+    const pool = products.filter(function(p){ return p.id !== baseItem.id; });
+
+    let presented, anchor;
+    if(round1Rec.kept){
+      // 1回目「維持」→ ラウンド2の候補からランダムに1つをアンカーにする
+      presented = sampleN(pool, size);
+      anchor = presented[Math.floor(Math.random() * presented.length)];
+    } else {
+      // 1回目「乗り換え」→ その乗り換え先自身をアンカーにし、必ず候補に含める
+      anchor = products.find(function(p){ return p.id === round1Rec.chosenId; });
+      const restPool = pool.filter(function(p){ return p.id !== anchor.id; });
+      presented = shuffle([anchor].concat(sampleN(restPool, size - 1)));
+    }
+
     const commonCount = COMMON_COUNT[size];
-    const commonSet = new Set(sampleN(presented, commonCount).map(function(p){ return p.id; }));
+    const restForCommon = presented.filter(function(p){ return p.id !== anchor.id; });
+    const commonSet = new Set([anchor.id].concat(sampleN(restForCommon, commonCount - 1).map(function(p){ return p.id; })));
 
     const overrideFields = hasImage ? [otherItem] : [item1, item2];
 
@@ -459,7 +465,7 @@
     html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '（2回目）</span>' +
             '<span class="progress">STEP ' + currentStepNo() + ' / ' + TOTAL_STEPS + '（候補' + size + '個）</span></div>';
     html += '<h1>今回選ぶなら、どちらにしますか？</h1>';
-    html += '<p class="desc">左側は先ほどのあなたの選択にもとづく商品です。右側をスクロールして他の候補と見比べ、気になったものをクリックしてください。</p>';
+    html += '<p class="desc">左側は最初に選んだ商品です。右側をスクロールして他の候補と見比べ、気になったものをクリックしてください。</p>';
     html += '<div class="slide-layout">' +
             '<div class="base-panel" id="basePanel"></div>' +
             '<div class="candidates-panel"><div class="grid" id="slideGrid"></div></div>' +
@@ -469,25 +475,26 @@
     const basePanel = document.getElementById('basePanel');
     const grid = document.getElementById('slideGrid');
 
-    // 左固定財（このサイズの基準＝ref。実データのまま表示）
-    basePanel.appendChild(buildCard(ref, { isBase:true, hideImage:false, overrides:null }));
+    // 基準財（常にbaseItem。実データのまま）
+    basePanel.appendChild(buildCard(baseItem, { isBase:true, hideImage:false, overrides:null }));
 
     presented.forEach(function(p){
       const isCommon = commonSet.has(p.id);
+      const isAnchor = (p.id === anchor.id);
       let hideImage = false;
       let overrides = null;
 
       if(hasImage){
-        hideImage = !isCommon;
-        if(isCommon && otherItem){
+        hideImage = !isCommon; // アンカー＋似せた財のみ画像表示
+        if(isCommon && !isAnchor && otherItem){
           overrides = {};
-          overrides[otherItem] = attrValue(ref, otherItem);
+          overrides[otherItem] = attrValue(anchor, otherItem);
         }
       } else {
-        if(isCommon){
+        if(isCommon && !isAnchor){
           overrides = {};
-          overrides[item1] = attrValue(ref, item1);
-          overrides[item2] = attrValue(ref, item2);
+          overrides[item1] = attrValue(anchor, item1);
+          overrides[item2] = attrValue(anchor, item2);
         }
       }
 
@@ -498,19 +505,20 @@
     clickable.forEach(function(cardEl){
       cardEl.addEventListener('click', function(){
         const clickedId = Number(cardEl.dataset.id);
-        const kept = (clickedId === ref.id);
+        const kept = (clickedId === baseItem.id);
         const chosen = products.find(function(p){ return p.id === clickedId; });
 
         round2Records.push({
           size: size,
-          referenceId: ref.id,
-          referenceName: ref.name,
+          anchorId: anchor.id,
+          anchorName: anchor.name,
+          anchorWasForced: !round1Rec.kept,
           presentedIds: presented.map(function(p){ return p.id; }),
           commonIds: Array.from(commonSet),
           overrideFields: overrideFields,
           kept: kept,
           chosenId: clickedId,
-          chosenName: chosen ? chosen.name : ref.name
+          chosenName: chosen ? chosen.name : baseItem.name
         });
 
         nextRound2Slide();
@@ -573,8 +581,9 @@
     round2Records.forEach(function(r){
       round2Payload.results[r.size] = { kept: r.kept, chosenId: r.chosenId, chosenName: r.chosenName };
       round2Payload.commonality[r.size] = {
-        referenceId: r.referenceId,
-        referenceName: r.referenceName,
+        anchorId: r.anchorId,
+        anchorName: r.anchorName,
+        anchorWasForced: r.anchorWasForced,
         commonCount: r.commonIds.length,
         commonIds: r.commonIds,
         presentedIds: r.presentedIds,
