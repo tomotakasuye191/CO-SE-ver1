@@ -54,6 +54,29 @@
     grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
     gap:12px;
   }
+  .slide-layout{
+    display:flex;
+    align-items:flex-start;
+    gap:24px;
+  }
+  .base-panel{
+    flex:0 0 220px;
+    position:sticky;
+    top:20px;
+  }
+  .base-panel .card{ cursor:pointer; }
+  .candidates-panel{
+    flex:1;
+    min-width:0;
+    max-height:calc(100vh - 210px);
+    overflow-y:auto;
+    padding-right:4px;
+  }
+  @media (max-width: 720px){
+    .slide-layout{ flex-direction:column; }
+    .base-panel{ position:static; width:100%; flex:none; }
+    .candidates-panel{ max-height:none; overflow-y:visible; width:100%; }
+  }
   .card{
     background:#fff;
     border:1px solid var(--line);
@@ -83,15 +106,17 @@
   .thumb{
     width:100%;
     aspect-ratio:1/1;
-    background:#eee;
+    background:#fff;
+    border:1px solid #ece7db;
     border-radius:2px;
     overflow:hidden;
     margin-bottom:8px;
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:6px;
   }
-  .thumb img{ width:100%; height:100%; object-fit:cover; }
+  .thumb img{ width:100%; height:100%; object-fit:contain; }
   .thumb.noimg{
     background:var(--accent-soft);
     font-size:12px;
@@ -302,16 +327,20 @@
     html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '</span>' +
             '<span class="progress">STEP ' + stepNo + ' / 5（候補' + size + '個）</span></div>';
     html += '<h1>今回選ぶなら、どちらにしますか？</h1>';
-    html += '<p class="desc">最初に選んだ商品（金色の枠）を続けて選んでも、新しい候補から選んでも構いません。気になったものをクリックしてください。</p>';
-    html += '<div class="grid" id="slideGrid"></div>';
+    html += '<p class="desc">左側は最初に選んだ商品です。右側をスクロールして他の候補と見比べ、気になったものをクリックしてください。左側をクリックすればそのまま選び続けられます。</p>';
+    html += '<div class="slide-layout">' +
+            '<div class="base-panel" id="basePanel"></div>' +
+            '<div class="candidates-panel"><div class="grid" id="slideGrid"></div></div>' +
+            '</div>';
     app.innerHTML = html;
 
+    const basePanel = document.getElementById('basePanel');
     const grid = document.getElementById('slideGrid');
 
-    // 基準財カード（常に実データのまま表示）
-    grid.appendChild(buildCard(baseItem, { isBase:true, hideImage:false, overrides:null }));
+    // 基準財カード（左側に固定、常に実データのまま表示）
+    basePanel.appendChild(buildCard(baseItem, { isBase:true, hideImage:false, overrides:null }));
 
-    // 候補カード
+    // 候補カード（右側、スクロール領域）
     presented.forEach(function(p){
       const isCommon = commonSet.has(p.id);
       let hideImage = false;
@@ -334,8 +363,9 @@
       grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides }));
     });
 
-    // クリックハンドラ
-    Array.from(grid.children).forEach(function(cardEl){
+    // クリックハンドラ（左の基準財カード＋右の候補カード、両方とも同列でクリック可能）
+    const clickable = Array.from(basePanel.children).concat(Array.from(grid.children));
+    clickable.forEach(function(cardEl){
       cardEl.addEventListener('click', function(){
         const clickedId = Number(cardEl.dataset.id);
         const kept = (clickedId === baseItem.id);
