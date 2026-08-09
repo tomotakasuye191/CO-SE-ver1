@@ -768,7 +768,7 @@ window.PRODUCTS = {
       "image": "chocolate/1.jpg",
       "name": "GABA(ギャバ) ミルク",
       "attrs": {
-        "price": 170,
+        "price": 210,
         "cacao_percent": "34%",
         "cacao_origin": "ガーナ",
         "calorie": "226kcal（1袋(51g)当たり）",
@@ -780,7 +780,7 @@ window.PRODUCTS = {
       "image": "chocolate/2.jpg",
       "name": "きのこの山",
       "attrs": {
-        "price": 170,
+        "price": 210,
         "cacao_percent": "30%",
         "cacao_origin": "ガーナ",
         "calorie": "359kcal（1箱(74g)当たり）",
@@ -792,7 +792,7 @@ window.PRODUCTS = {
       "image": "chocolate/3.jpg",
       "name": "たけのこの里",
       "attrs": {
-        "price": 170,
+        "price": 210,
         "cacao_percent": "30%",
         "cacao_origin": "ガーナ",
         "calorie": "339kcal（1箱(70g)当たり）",
@@ -804,7 +804,7 @@ window.PRODUCTS = {
       "image": "chocolate/4.jpg",
       "name": "アポロ",
       "attrs": {
-        "price": 120,
+        "price": 210,
         "cacao_percent": "30%",
         "cacao_origin": "ガーナ",
         "calorie": "283kcal（1箱(58g)当たり）",
@@ -828,7 +828,7 @@ window.PRODUCTS = {
       "image": "chocolate/6.jpg",
       "name": "アルフォート ミニチョコレート",
       "attrs": {
-        "price": 150,
+        "price": 210,
         "cacao_percent": "32%",
         "cacao_origin": "非公開(西アフリカ系)",
         "calorie": "238kcal（1袋(6枚)当たり）",
@@ -852,7 +852,7 @@ window.PRODUCTS = {
       "image": "chocolate/8.jpg",
       "name": "ガーナ ミルクチョコレート",
       "attrs": {
-        "price": 150,
+        "price": 210,
         "cacao_percent": "35%",
         "cacao_origin": "ガーナ",
         "calorie": "280kcal（1枚(50g)当たり）",
@@ -864,7 +864,7 @@ window.PRODUCTS = {
       "image": "chocolate/9.jpg",
       "name": "ガーナ ホワイトチョコレート",
       "attrs": {
-        "price": 150,
+        "price": 210,
         "cacao_percent": "非公表（ホワイトチョコのため該当なし）",
         "cacao_origin": "ガーナ(カカオバター使用)",
         "calorie": "294kcal（1枚(50g)当たり）",
@@ -888,7 +888,7 @@ window.PRODUCTS = {
       "image": "chocolate/11.jpg",
       "name": "チョコボール ピーナッツ",
       "attrs": {
-        "price": 60,
+        "price": 200,
         "cacao_percent": "34%",
         "cacao_origin": "ガーナ",
         "calorie": "157kcal（1箱(28g)当たり）",
@@ -936,7 +936,7 @@ window.PRODUCTS = {
       "image": "chocolate/15.jpg",
       "name": "ブラックサンダー",
       "attrs": {
-        "price": 30,
+        "price": 200,
         "cacao_percent": "32%",
         "cacao_origin": "非公開",
         "calorie": "180kcal（1本(33g)当たり）",
@@ -972,7 +972,7 @@ window.PRODUCTS = {
       "image": "chocolate/18.jpg",
       "name": "小枝",
       "attrs": {
-        "price": 170,
+        "price": 210,
         "cacao_percent": "34%",
         "cacao_origin": "ガーナ",
         "calorie": "299kcal（1箱(57g)当たり）",
@@ -984,7 +984,7 @@ window.PRODUCTS = {
       "image": "chocolate/19.jpg",
       "name": "明治ミルクチョコレート",
       "attrs": {
-        "price": 150,
+        "price": 210,
         "cacao_percent": "40%",
         "cacao_origin": "ガーナ",
         "calorie": "279kcal（1枚(50g)当たり）",
@@ -996,7 +996,7 @@ window.PRODUCTS = {
       "image": "chocolate/20.jpg",
       "name": "紗々(SASA) メッシュチョコレート",
       "attrs": {
-        "price": 180,
+        "price": 210,
         "cacao_percent": "45%",
         "cacao_origin": "非公開",
         "calorie": "200kcal（1箱(33g)当たり）",
@@ -1008,7 +1008,7 @@ window.PRODUCTS = {
       "image": "chocolate/21.jpg",
       "name": "明治 ブラックチョコレート",
       "attrs": {
-        "price": 180,
+        "price": 210,
         "cacao_percent": "55%",
         "cacao_origin": "ガーナ+西アフリカ",
         "calorie": "299kcal（1箱(50g)当たり）",
