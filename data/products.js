@@ -261,7 +261,7 @@ window.PRODUCTS = {
       "name": "あきたこまち（秋田県）",
       "attrs": {
         "price": 4680,
-        "variety": "あきたこまち",
+        "origin": "秋田県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -273,7 +273,7 @@ window.PRODUCTS = {
       "name": "いちほまれ（福井県）",
       "attrs": {
         "price": 5480,
-        "variety": "いちほまれ",
+        "origin": "福井県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "無洗米"
@@ -285,7 +285,7 @@ window.PRODUCTS = {
       "name": "いのちの壱（岐阜県）",
       "attrs": {
         "price": 2680,
-        "variety": "いのちの壱",
+        "origin": "岐阜県",
         "volume": "2kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -297,7 +297,7 @@ window.PRODUCTS = {
       "name": "キヌヒカリ（滋賀県）",
       "attrs": {
         "price": 3980,
-        "variety": "キヌヒカリ",
+        "origin": "滋賀県",
         "volume": "5kg",
         "harvest": "古米(令和6年産)",
         "polish": "玄米"
@@ -309,7 +309,7 @@ window.PRODUCTS = {
       "name": "きらら397（北海道）",
       "attrs": {
         "price": 4180,
-        "variety": "きらら397",
+        "origin": "北海道",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -321,7 +321,7 @@ window.PRODUCTS = {
       "name": "コシヒカリ（新潟県）",
       "attrs": {
         "price": 5980,
-        "variety": "コシヒカリ",
+        "origin": "新潟県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "無洗米"
@@ -333,7 +333,7 @@ window.PRODUCTS = {
       "name": "さがびより（佐賀県）",
       "attrs": {
         "price": 4980,
-        "variety": "さがびより",
+        "origin": "佐賀県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -345,7 +345,7 @@ window.PRODUCTS = {
       "name": "ササニシキ（宮城県）",
       "attrs": {
         "price": 4580,
-        "variety": "ササニシキ",
+        "origin": "宮城県",
         "volume": "5kg",
         "harvest": "古米(令和6年産)",
         "polish": "玄米"
@@ -357,7 +357,7 @@ window.PRODUCTS = {
       "name": "つや姫（山形県）",
       "attrs": {
         "price": 5680,
-        "variety": "つや姫",
+        "origin": "山形県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -369,7 +369,7 @@ window.PRODUCTS = {
       "name": "ななつぼし（北海道）",
       "attrs": {
         "price": 4680,
-        "variety": "ななつぼし",
+        "origin": "北海道",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "無洗米"
@@ -381,7 +381,7 @@ window.PRODUCTS = {
       "name": "にこまる（熊本県）",
       "attrs": {
         "price": 3480,
-        "variety": "にこまる",
+        "origin": "熊本県",
         "volume": "5kg",
         "harvest": "古古米(令和5年産)",
         "polish": "白米"
@@ -393,7 +393,7 @@ window.PRODUCTS = {
       "name": "ひとめぼれ（宮城県）",
       "attrs": {
         "price": 4580,
-        "variety": "ひとめぼれ",
+        "origin": "宮城県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -405,7 +405,7 @@ window.PRODUCTS = {
       "name": "ヒノヒカリ（宮崎県）",
       "attrs": {
         "price": 4280,
-        "variety": "ヒノヒカリ",
+        "origin": "宮崎県",
         "volume": "5kg",
         "harvest": "古米(令和6年産)",
         "polish": "玄米"
@@ -417,7 +417,7 @@ window.PRODUCTS = {
       "name": "ミルキークイーン（茨城県）",
       "attrs": {
         "price": 4780,
-        "variety": "ミルキークイーン",
+        "origin": "茨城県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -429,7 +429,7 @@ window.PRODUCTS = {
       "name": "ゆめぴりか（北海道）",
       "attrs": {
         "price": 5880,
-        "variety": "ゆめぴりか",
+        "origin": "北海道",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "無洗米"
@@ -441,7 +441,7 @@ window.PRODUCTS = {
       "name": "銀の朏(ぎんのみかづき)（新潟県）",
       "attrs": {
         "price": 2980,
-        "variety": "銀の朏(ぎんのみかづき)",
+        "origin": "新潟県",
         "volume": "1kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -453,7 +453,7 @@ window.PRODUCTS = {
       "name": "新之助（新潟県）",
       "attrs": {
         "price": 5780,
-        "variety": "新之助",
+        "origin": "新潟県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -465,7 +465,7 @@ window.PRODUCTS = {
       "name": "青天の霹靂（青森県）",
       "attrs": {
         "price": 4980,
-        "variety": "青天の霹靂",
+        "origin": "青森県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "無洗米"
@@ -477,7 +477,7 @@ window.PRODUCTS = {
       "name": "雪若丸（山形県）",
       "attrs": {
         "price": 5080,
-        "variety": "雪若丸",
+        "origin": "山形県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
@@ -489,7 +489,7 @@ window.PRODUCTS = {
       "name": "富富富(ふふふ)（富山県）",
       "attrs": {
         "price": 2280,
-        "variety": "富富富(ふふふ)",
+        "origin": "富山県",
         "volume": "2kg",
         "harvest": "古米(令和6年産)",
         "polish": "玄米"
@@ -501,7 +501,7 @@ window.PRODUCTS = {
       "name": "龍の瞳（岐阜県）",
       "attrs": {
         "price": 6480,
-        "variety": "龍の瞳",
+        "origin": "岐阜県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
