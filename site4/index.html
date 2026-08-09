@@ -262,9 +262,15 @@
   }
 
   // ---- 状態 ----
-  let baseItem = null;
-  let remainingSizes = [];
-  let slideRecords = []; // {size, presentedIds, commonIds, overrideFields, kept, chosenId, chosenName}
+  let baseItem = null;          // 最初(intro)で選んだ財
+  let remainingSizes = [];      // ラウンド1の残りサイズ
+  let round1Records = [];       // {size, presentedIds, kept, chosenId, chosenName}
+  let referenceForSize = {};    // ラウンド2で各サイズの左固定財として使う財（size -> product）
+  let remainingSizes2 = [];     // ラウンド2の残りサイズ
+  let round2Records = [];       // {size, presentedIds, commonIds, overrideFields, kept, chosenId, chosenName}
+  let phase = 'intro';          // 'intro' | 'round1' | 'round2'
+
+  const TOTAL_STEPS = 1 + SIZES.length * 2; // イントロ1 + ラウンド1(4) + ラウンド2(4) = 9
 
   // ============================================================
   // フェーズ0：21商品から基準財を選ぶ
@@ -273,7 +279,7 @@
     const order = shuffle(products);
     let html = '';
     html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '</span>' +
-            '<span class="progress">STEP 1 / 5</span></div>';
+            '<span class="progress">STEP 1 / ' + TOTAL_STEPS + '</span></div>';
     html += '<h1>' + goodLabel + 'の中で、いちばん好きなもの・身近なものを1つ選んでください</h1>';
     html += '<p class="desc">下の21個の中からクリックして選んでください。この後の画面で、この商品を基準に選択が続きます。</p>';
     html += '<div class="grid" id="introGrid"></div>';
@@ -288,8 +294,9 @@
         '<div class="pname">' + escapeHtml(p.name) + '</div>';
       card.addEventListener('click', function(){
         baseItem = p;
+        phase = 'round1';
         remainingSizes = shuffle(SIZES);
-        nextSlide();
+        nextRound1Slide();
       });
       grid.appendChild(card);
     });
@@ -301,31 +308,44 @@
     });
   }
 
+  function currentStepNo(){
+    if(phase === 'round1'){
+      return 1 + (SIZES.length - remainingSizes.length); // 2〜5
+    }
+    if(phase === 'round2'){
+      return 1 + SIZES.length + (SIZES.length - remainingSizes2.length); // 6〜9
+    }
+    return 1;
+  }
+
   // ============================================================
-  // フェーズ1〜4：候補数 5 / 10 / 15 / 20 のスライド
+  // ラウンド1：操作なしCO測定（画像・全属性とも実データそのまま）
   // ============================================================
-  function nextSlide(){
+  function nextRound1Slide(){
     if(remainingSizes.length === 0){
-      submitResults();
+      // ラウンド1終了 → 各サイズの結果から、ラウンド2で使う基準財を決定
+      SIZES.forEach(function(size){
+        const rec = round1Records.find(function(r){ return r.size === size; });
+        referenceForSize[size] = rec.kept
+          ? baseItem
+          : products.find(function(p){ return p.id === rec.chosenId; });
+      });
+      phase = 'round2';
+      remainingSizes2 = shuffle(SIZES);
+      nextRound2Slide();
       return;
     }
     const size = remainingSizes.shift();
-    renderSlide(size);
+    renderRound1Slide(size);
   }
 
-  function renderSlide(size){
+  function renderRound1Slide(size){
     const pool = products.filter(function(p){ return p.id !== baseItem.id; });
     const presented = sampleN(pool, size);
-    const commonCount = COMMON_COUNT[size];
-    const commonSet = new Set(sampleN(presented, commonCount).map(function(p){ return p.id; }));
 
-    // このスライドで共通化する属性キー
-    const overrideFields = hasImage ? [otherItem] : [item1, item2];
-
-    const stepNo = 2 + (SIZES.length - remainingSizes.length - 1); // 1始まりのSTEP番号(2〜5)
     let html = '';
-    html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '</span>' +
-            '<span class="progress">STEP ' + stepNo + ' / 5（候補' + size + '個）</span></div>';
+    html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '（1回目）</span>' +
+            '<span class="progress">STEP ' + currentStepNo() + ' / ' + TOTAL_STEPS + '（候補' + size + '個）</span></div>';
     html += '<h1>今回選ぶなら、どちらにしますか？</h1>';
     html += '<p class="desc">左側は最初に選んだ商品です。右側をスクロールして他の候補と見比べ、気になったものをクリックしてください。左側をクリックすればそのまま選び続けられます。</p>';
     html += '<div class="slide-layout">' +
@@ -337,33 +357,14 @@
     const basePanel = document.getElementById('basePanel');
     const grid = document.getElementById('slideGrid');
 
-    // 基準財カード（左側に固定、常に実データのまま表示）
+    // 基準財カード（左固定、実データのまま）
     basePanel.appendChild(buildCard(baseItem, { isBase:true, hideImage:false, overrides:null }));
 
-    // 候補カード（右側、スクロール領域）
+    // 候補カード（すべて実データのまま、操作なし）
     presented.forEach(function(p){
-      const isCommon = commonSet.has(p.id);
-      let hideImage = false;
-      let overrides = null;
-
-      if(hasImage){
-        hideImage = !isCommon; // 共通化対象のみ画像表示
-        if(isCommon && otherItem){
-          overrides = {};
-          overrides[otherItem] = attrValue(baseItem, otherItem);
-        }
-      } else {
-        if(isCommon){
-          overrides = {};
-          overrides[item1] = attrValue(baseItem, item1);
-          overrides[item2] = attrValue(baseItem, item2);
-        }
-      }
-
-      grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides }));
+      grid.appendChild(buildCard(p, { isBase:false, hideImage:false, overrides:null }));
     });
 
-    // クリックハンドラ（左の基準財カード＋右の候補カード、両方とも同列でクリック可能）
     const clickable = Array.from(basePanel.children).concat(Array.from(grid.children));
     clickable.forEach(function(cardEl){
       cardEl.addEventListener('click', function(){
@@ -371,17 +372,100 @@
         const kept = (clickedId === baseItem.id);
         const chosen = products.find(function(p){ return p.id === clickedId; });
 
-        slideRecords.push({
+        round1Records.push({
           size: size,
           presentedIds: presented.map(function(p){ return p.id; }),
-          commonIds: Array.from(commonSet),
-          overrideFields: overrideFields,
           kept: kept,
           chosenId: clickedId,
           chosenName: chosen ? chosen.name : baseItem.name
         });
 
-        nextSlide();
+        nextRound1Slide();
+      });
+    });
+  }
+
+  // ============================================================
+  // ラウンド2：操作あり CO・SE測定
+  // 各サイズの左固定財は、ラウンド1の「そのサイズでの選択結果」に差し替える
+  // ============================================================
+  function nextRound2Slide(){
+    if(remainingSizes2.length === 0){
+      submitResults();
+      return;
+    }
+    const size = remainingSizes2.shift();
+    renderRound2Slide(size);
+  }
+
+  function renderRound2Slide(size){
+    const ref = referenceForSize[size];
+    const pool = products.filter(function(p){ return p.id !== ref.id; });
+    const presented = sampleN(pool, size);
+    const commonCount = COMMON_COUNT[size];
+    const commonSet = new Set(sampleN(presented, commonCount).map(function(p){ return p.id; }));
+
+    const overrideFields = hasImage ? [otherItem] : [item1, item2];
+
+    let html = '';
+    html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '（2回目）</span>' +
+            '<span class="progress">STEP ' + currentStepNo() + ' / ' + TOTAL_STEPS + '（候補' + size + '個）</span></div>';
+    html += '<h1>今回選ぶなら、どちらにしますか？</h1>';
+    html += '<p class="desc">左側は先ほどのあなたの選択にもとづく商品です。右側をスクロールして他の候補と見比べ、気になったものをクリックしてください。</p>';
+    html += '<div class="slide-layout">' +
+            '<div class="base-panel" id="basePanel"></div>' +
+            '<div class="candidates-panel"><div class="grid" id="slideGrid"></div></div>' +
+            '</div>';
+    app.innerHTML = html;
+
+    const basePanel = document.getElementById('basePanel');
+    const grid = document.getElementById('slideGrid');
+
+    // 左固定財（このサイズの基準＝ref。実データのまま表示）
+    basePanel.appendChild(buildCard(ref, { isBase:true, hideImage:false, overrides:null }));
+
+    presented.forEach(function(p){
+      const isCommon = commonSet.has(p.id);
+      let hideImage = false;
+      let overrides = null;
+
+      if(hasImage){
+        hideImage = !isCommon;
+        if(isCommon && otherItem){
+          overrides = {};
+          overrides[otherItem] = attrValue(ref, otherItem);
+        }
+      } else {
+        if(isCommon){
+          overrides = {};
+          overrides[item1] = attrValue(ref, item1);
+          overrides[item2] = attrValue(ref, item2);
+        }
+      }
+
+      grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides }));
+    });
+
+    const clickable = Array.from(basePanel.children).concat(Array.from(grid.children));
+    clickable.forEach(function(cardEl){
+      cardEl.addEventListener('click', function(){
+        const clickedId = Number(cardEl.dataset.id);
+        const kept = (clickedId === ref.id);
+        const chosen = products.find(function(p){ return p.id === clickedId; });
+
+        round2Records.push({
+          size: size,
+          referenceId: ref.id,
+          referenceName: ref.name,
+          presentedIds: presented.map(function(p){ return p.id; }),
+          commonIds: Array.from(commonSet),
+          overrideFields: overrideFields,
+          kept: kept,
+          chosenId: clickedId,
+          chosenName: chosen ? chosen.name : ref.name
+        });
+
+        nextRound2Slide();
       });
     });
   }
@@ -393,7 +477,7 @@
 
     let inner = '';
     if(opts.isBase){
-      inner += '<span class="badge">最初に選んだ商品</span>';
+      inner += '<span class="badge">今回の基準の商品</span>';
     }
 
     if(opts.hideImage){
@@ -425,12 +509,24 @@
     app.innerHTML =
       '<div class="loading-screen"><div class="spinner"></div><p>結果を記録しています…</p></div>';
 
-    const slideOrder = slideRecords.map(function(r){ return r.size; });
-    const results = {};
-    const commonality = {};
-    slideRecords.forEach(function(r){
-      results[r.size] = { kept: r.kept, chosenId: r.chosenId, chosenName: r.chosenName };
-      commonality[r.size] = {
+    const round1Payload = {
+      slideOrder: round1Records.map(function(r){ return r.size; }),
+      results: {}
+    };
+    round1Records.forEach(function(r){
+      round1Payload.results[r.size] = { kept: r.kept, chosenId: r.chosenId, chosenName: r.chosenName };
+    });
+
+    const round2Payload = {
+      slideOrder: round2Records.map(function(r){ return r.size; }),
+      results: {},
+      commonality: {}
+    };
+    round2Records.forEach(function(r){
+      round2Payload.results[r.size] = { kept: r.kept, chosenId: r.chosenId, chosenName: r.chosenName };
+      round2Payload.commonality[r.size] = {
+        referenceId: r.referenceId,
+        referenceName: r.referenceName,
         commonCount: r.commonIds.length,
         commonIds: r.commonIds,
         presentedIds: r.presentedIds,
@@ -445,9 +541,8 @@
         action: 'submitCO',
         id: id, good: good,
         baseId: baseItem.id, baseName: baseItem.name,
-        slideOrder: slideOrder,
-        results: results,
-        commonality: commonality
+        round1: round1Payload,
+        round2: round2Payload
       })
     }).then(function(res){ return res.json(); })
       .then(function(data){
