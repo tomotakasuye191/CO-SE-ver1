@@ -24,19 +24,7 @@
     justify-content:center;
     padding:24px;
   }
-  .card{
-    text-align:center;
-    max-width:420px;
-  }
-  .spinner{
-    width:34px; height:34px;
-    margin:0 auto 22px;
-    border:3px solid var(--line);
-    border-top-color:var(--accent);
-    border-radius:50%;
-    animation:spin 0.9s linear infinite;
-  }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .card{ text-align:center; max-width:420px; }
   p{ font-size:14px; line-height:1.8; color:#4b554e; }
   .error{
     color:var(--error);
@@ -48,32 +36,18 @@
     display:none;
     text-align:left;
   }
-  button{
-    margin-top:16px;
-    padding:10px 20px;
-    font-size:13px;
-    font-weight:700;
-    border:none;
-    border-radius:2px;
-    background:var(--accent);
-    color:#fff;
-    cursor:pointer;
-    display:none;
-  }
 </style>
 </head>
 <body>
-
   <div class="card">
-    <div class="spinner" id="spinner"></div>
-    <p id="statusText">回答内容を確認しています。しばらくお待ちください…</p>
+    <p id="statusText">移動しています…</p>
     <div class="error" id="errorBox"></div>
-    <button id="retryBtn">再試行する</button>
   </div>
 
 <script>
+  // このページはネットワーク通信を行わず、サイト2から渡された情報を使って
+  // 即座にサイト4へ振り分けるだけの中継ページ（体感速度改善のため）。
   const SITE4_URL = "../site4/index.html";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
 
   const urlParams = new URLSearchParams(window.location.search);
   function getParam(key){
@@ -86,60 +60,29 @@
   const good2 = getParam('good2');
   const current = getParam('current') || '1';
   const good = urlParams.get('good') || (current === '1' ? good1 : good2);
+  const item1 = urlParams.get('item1');
+  const item2 = urlParams.get('item2');
 
-  const spinner = document.getElementById('spinner');
-  const statusText = document.getElementById('statusText');
   const errorBox = document.getElementById('errorBox');
-  const retryBtn = document.getElementById('retryBtn');
-
   function showError(text){
-    spinner.style.display = 'none';
-    statusText.style.display = 'none';
+    document.getElementById('statusText').style.display = 'none';
     errorBox.textContent = text;
     errorBox.style.display = 'block';
-    retryBtn.style.display = 'inline-block';
   }
 
-  async function run(){
-    if(!id || !good){
-      showError('必要な情報が見つかりませんでした。最初のページからやり直してください。');
-      return;
-    }
-    try{
-      const res = await fetch(GAS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'getRouting', id: id, good: good })
-      });
-      const data = await res.json();
+  if(!id || !good || !item1 || !item2){
+    showError('必要な情報が見つかりませんでした。最初のページからやり直してください。');
+  } else {
+    const hasImage = (item1 === 'image' || item2 === 'image');
+    const otherItem = hasImage ? (item1 === 'image' ? item2 : item1) : '';
 
-      if(data.status !== 'ok'){
-        showError(data.message || 'ルーティングの判定に失敗しました。');
-        return;
-      }
-
-      const query = new URLSearchParams({
-        id: id, group: group, good1: good1, good2: good2, current: current,
-        good: good, item1: data.item1, item2: data.item2,
-        hasImage: data.hasImage ? '1' : '0',
-        otherItem: data.otherItem || ''
-      });
-      window.location.href = SITE4_URL + '?' + query.toString();
-
-    }catch(err){
-      showError('通信エラーが発生しました。ネットワーク環境をご確認の上、再試行してください。');
-    }
+    const query = new URLSearchParams({
+      id: id, group: group, good1: good1, good2: good2, current: current,
+      good: good, item1: item1, item2: item2,
+      hasImage: hasImage ? '1' : '0', otherItem: otherItem
+    });
+    window.location.href = SITE4_URL + '?' + query.toString();
   }
-
-  retryBtn.addEventListener('click', function(){
-    retryBtn.style.display = 'none';
-    errorBox.style.display = 'none';
-    spinner.style.display = 'block';
-    statusText.style.display = 'block';
-    run();
-  });
-
-  run();
 </script>
 
 </body>
