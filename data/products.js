@@ -258,7 +258,7 @@ window.PRODUCTS = {
     {
       "id": 1,
       "image": "rice/1.jpg",
-      "name": "あきたこまち（秋田県）",
+      "name": "あきたこまち",
       "attrs": {
         "price": 4680,
         "origin": "秋田県",
@@ -270,7 +270,7 @@ window.PRODUCTS = {
     {
       "id": 2,
       "image": "rice/2.jpg",
-      "name": "いちほまれ（福井県）",
+      "name": "いちほまれ",
       "attrs": {
         "price": 5480,
         "origin": "福井県",
@@ -282,7 +282,7 @@ window.PRODUCTS = {
     {
       "id": 3,
       "image": "rice/3.jpg",
-      "name": "いのちの壱（岐阜県）",
+      "name": "いのちの壱",
       "attrs": {
         "price": 2680,
         "origin": "岐阜県",
@@ -294,7 +294,7 @@ window.PRODUCTS = {
     {
       "id": 4,
       "image": "rice/4.jpg",
-      "name": "キヌヒカリ（滋賀県）",
+      "name": "キヌヒカリ",
       "attrs": {
         "price": 3980,
         "origin": "滋賀県",
@@ -306,7 +306,7 @@ window.PRODUCTS = {
     {
       "id": 5,
       "image": "rice/5.jpg",
-      "name": "きらら397（北海道）",
+      "name": "きらら397",
       "attrs": {
         "price": 4180,
         "origin": "北海道",
@@ -318,7 +318,7 @@ window.PRODUCTS = {
     {
       "id": 6,
       "image": "rice/6.jpg",
-      "name": "コシヒカリ（新潟県）",
+      "name": "コシヒカリ",
       "attrs": {
         "price": 5980,
         "origin": "新潟県",
@@ -330,7 +330,7 @@ window.PRODUCTS = {
     {
       "id": 7,
       "image": "rice/7.jpg",
-      "name": "さがびより（佐賀県）",
+      "name": "さがびより",
       "attrs": {
         "price": 4980,
         "origin": "佐賀県",
@@ -342,7 +342,7 @@ window.PRODUCTS = {
     {
       "id": 8,
       "image": "rice/8.jpg",
-      "name": "ササニシキ（宮城県）",
+      "name": "ササニシキ",
       "attrs": {
         "price": 4580,
         "origin": "宮城県",
@@ -354,7 +354,7 @@ window.PRODUCTS = {
     {
       "id": 9,
       "image": "rice/9.jpg",
-      "name": "つや姫（山形県）",
+      "name": "つや姫",
       "attrs": {
         "price": 5680,
         "origin": "山形県",
@@ -366,7 +366,7 @@ window.PRODUCTS = {
     {
       "id": 10,
       "image": "rice/10.jpg",
-      "name": "ななつぼし（北海道）",
+      "name": "ななつぼし",
       "attrs": {
         "price": 4680,
         "origin": "北海道",
@@ -378,7 +378,7 @@ window.PRODUCTS = {
     {
       "id": 11,
       "image": "rice/11.jpg",
-      "name": "にこまる（熊本県）",
+      "name": "にこまる",
       "attrs": {
         "price": 3480,
         "origin": "熊本県",
@@ -390,7 +390,7 @@ window.PRODUCTS = {
     {
       "id": 12,
       "image": "rice/12.jpg",
-      "name": "ひとめぼれ（宮城県）",
+      "name": "ひとめぼれ",
       "attrs": {
         "price": 4580,
         "origin": "宮城県",
@@ -402,7 +402,7 @@ window.PRODUCTS = {
     {
       "id": 13,
       "image": "rice/13.jpg",
-      "name": "ヒノヒカリ（宮崎県）",
+      "name": "ヒノヒカリ",
       "attrs": {
         "price": 4280,
         "origin": "宮崎県",
@@ -414,7 +414,7 @@ window.PRODUCTS = {
     {
       "id": 14,
       "image": "rice/14.jpg",
-      "name": "ミルキークイーン（茨城県）",
+      "name": "ミルキークイーン",
       "attrs": {
         "price": 4780,
         "origin": "茨城県",
@@ -426,7 +426,7 @@ window.PRODUCTS = {
     {
       "id": 15,
       "image": "rice/15.jpg",
-      "name": "ゆめぴりか（北海道）",
+      "name": "ゆめぴりか",
       "attrs": {
         "price": 5880,
         "origin": "北海道",
@@ -438,7 +438,7 @@ window.PRODUCTS = {
     {
       "id": 16,
       "image": "rice/16.jpg",
-      "name": "銀の朏(ぎんのみかづき)（新潟県）",
+      "name": "銀の朏(ぎんのみかづき)",
       "attrs": {
         "price": 2980,
         "origin": "新潟県",
@@ -450,7 +450,7 @@ window.PRODUCTS = {
     {
       "id": 17,
       "image": "rice/17.jpg",
-      "name": "新之助（新潟県）",
+      "name": "新之助",
       "attrs": {
         "price": 5780,
         "origin": "新潟県",
@@ -462,7 +462,7 @@ window.PRODUCTS = {
     {
       "id": 18,
       "image": "rice/18.jpg",
-      "name": "青天の霹靂（青森県）",
+      "name": "青天の霹靂",
       "attrs": {
         "price": 4980,
         "origin": "青森県",
@@ -474,7 +474,7 @@ window.PRODUCTS = {
     {
       "id": 19,
       "image": "rice/19.jpg",
-      "name": "雪若丸（山形県）",
+      "name": "雪若丸",
       "attrs": {
         "price": 5080,
         "origin": "山形県",
@@ -486,7 +486,7 @@ window.PRODUCTS = {
     {
       "id": 20,
       "image": "rice/20.jpg",
-      "name": "富富富(ふふふ)（富山県）",
+      "name": "富富富(ふふふ)",
       "attrs": {
         "price": 2280,
         "origin": "富山県",
@@ -498,7 +498,7 @@ window.PRODUCTS = {
     {
       "id": 21,
       "image": "rice/21.jpg",
-      "name": "龍の瞳（岐阜県）",
+      "name": "龍の瞳",
       "attrs": {
         "price": 6480,
         "origin": "岐阜県",
