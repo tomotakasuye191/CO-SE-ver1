@@ -47,7 +47,8 @@
 <script>
   // このページはネットワーク通信を行わず、サイト2から渡された情報を使って
   // 即座にサイト4へ振り分けるだけの中継ページ（体感速度改善のため）。
-  const SITE4_URL = "../site4/index.html";
+  const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
+  const SITE4_URL = BASE_URL + "site4/index.html";
 
   const urlParams = new URLSearchParams(window.location.search);
   function getParam(key){
