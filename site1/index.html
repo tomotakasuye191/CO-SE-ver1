@@ -178,52 +178,51 @@
     msgBox.className = 'msg ' + type;
   }
 
-  form.addEventListener('submit', async function(e){
+  form.addEventListener('submit', function(e){
     e.preventDefault();
     const id = idInput.value.trim();
     if(!id){ return; }
 
     submitBtn.disabled = true;
     showMessage('登録しています…', 'loading');
-
-    try{
-      const res = await fetch(GAS_URL, {
-        method: 'POST',
-        // text/plain にすることでプリフライトを回避し、GAS側のCORS制約を避ける
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'register', id: id })
-      });
-
-      const data = await res.json();
-
-      if(data.status !== 'ok'){
-        showMessage(data.message || '登録に失敗しました。時間をおいて再度お試しください。', 'error');
-        submitBtn.disabled = false;
-        return;
-      }
-
-      // 以降のサイトへIDや割り当て情報を引き継ぐ
-      sessionStorage.setItem('experiment_id', data.id);
-      sessionStorage.setItem('experiment_group', data.group);
-      sessionStorage.setItem('experiment_good1', data.good1);
-      sessionStorage.setItem('experiment_good2', data.good2);
-      sessionStorage.setItem('experiment_currentGoodIndex', '1');
-
-      const query = new URLSearchParams({
-        id: data.id,
-        group: data.group,
-        good1: data.good1,
-        good2: data.good2,
-        current: '1'
-      });
-
-      window.location.href = SITE2_URL + '?' + query.toString();
-
-    }catch(err){
-      showMessage('通信エラーが発生しました。ネットワーク環境をご確認の上、再度お試しください。', 'error');
-      submitBtn.disabled = false;
-    }
+    registerId(id, false);
   });
+
+  function registerId(id, isAutoRetry){
+    fetch(GAS_URL, {
+      method: 'POST',
+      // text/plain にすることでプリフライトを回避し、GAS側のCORS制約を避ける
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'register', id: id })
+    }).then(function(res){ return res.json(); })
+      .then(function(data){
+        if(data.status !== 'ok'){
+          showMessage(data.message || '登録に失敗しました。時間をおいて再度お試しください。', 'error');
+          submitBtn.disabled = false;
+          return;
+        }
+
+        // 以降のサイトへIDや割り当て情報を引き継ぐ
+        sessionStorage.setItem('experiment_id', data.id);
+        sessionStorage.setItem('experiment_group', data.group);
+        sessionStorage.setItem('experiment_good1', data.good1);
+        sessionStorage.setItem('experiment_good2', data.good2);
+        sessionStorage.setItem('experiment_currentGoodIndex', '1');
+
+        const query = new URLSearchParams({
+          id: data.id, group: data.group, good1: data.good1, good2: data.good2, current: '1'
+        });
+        window.location.href = SITE2_URL + '?' + query.toString();
+
+      }).catch(function(){
+        if(!isAutoRetry){
+          setTimeout(function(){ registerId(id, true); }, 800);
+          return;
+        }
+        showMessage('通信エラーが発生しました。ネットワーク環境をご確認の上、再度お試しください。', 'error');
+        submitBtn.disabled = false;
+      });
+  }
 </script>
 
 </body>
