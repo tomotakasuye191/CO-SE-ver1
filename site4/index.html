@@ -259,10 +259,16 @@
 
   const app = document.getElementById('app');
 
-  function fail(msg){
+  function fail(msg, retryFn){
+    const retryHtml = retryFn
+      ? '<button class="retry" id="retryActionBtn">再送信する</button>'
+      : '<button class="retry" onclick="location.reload()">再読み込み</button>';
     app.innerHTML =
       '<div class="error-screen"><div class="error-box">' + msg + '</div>' +
-      '<button class="retry" onclick="location.reload()">再読み込み</button></div>';
+      retryHtml + '</div>';
+    if(retryFn){
+      document.getElementById('retryActionBtn').addEventListener('click', retryFn);
+    }
   }
 
   if(!id || !good || !window.PRODUCTS || !window.PRODUCTS[good]){
@@ -559,9 +565,6 @@
   // 送信 & 次のステップへ
   // ============================================================
   function submitResults(){
-    app.innerHTML =
-      '<div class="loading-screen"><div class="spinner"></div><p>結果を記録しています…</p></div>';
-
     const round1Payload = {
       slideOrder: round1Records.map(function(r){ return r.size; }),
       results: {}
@@ -588,25 +591,50 @@
       };
     });
 
+    const payload = {
+      action: 'submitCO',
+      id: id, good: good,
+      baseId: baseItem.id, baseName: baseItem.name,
+      round1: round1Payload,
+      round2: round2Payload
+    };
+
+    // 送信前に保存しておく → 通信に失敗して再読み込みしても、この回答から再送信できる
+    sessionStorage.setItem('experiment_pendingCO_' + good, JSON.stringify(payload));
+
+    sendCOPayload(payload);
+  }
+
+  function sendCOPayload(payload){
+    app.innerHTML =
+      '<div class="loading-screen"><div class="spinner"></div><p>結果を記録しています…</p></div>';
+
     fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'submitCO',
-        id: id, good: good,
-        baseId: baseItem.id, baseName: baseItem.name,
-        round1: round1Payload,
-        round2: round2Payload
+      body: JSON.stringify(payload)
+    }).then(function(res){
+        return res.text().then(function(text){
+          let parsed;
+          try{
+            parsed = JSON.parse(text);
+          }catch(e){
+            throw new Error('サーバーから予期しない応答（HTTP ' + res.status + '）: ' + text.slice(0, 200));
+          }
+          return parsed;
+        });
       })
-    }).then(function(res){ return res.json(); })
       .then(function(data){
         if(data.status !== 'ok'){
-          fail(data.message || '記録に失敗しました。');
+          fail((data.message || '記録に失敗しました。') + '（回答データは保存されているので、再送信できます）',
+               function(){ sendCOPayload(payload); });
           return;
         }
+        sessionStorage.removeItem('experiment_pendingCO_' + good);
         goToNext();
-      }).catch(function(){
-        fail('通信エラーが発生しました。再読み込みして最初からやり直してください。');
+      }).catch(function(err){
+        fail('通信エラーが発生しました：' + err.message + '<br>回答データは保存されているので、再送信できます。',
+             function(){ sendCOPayload(payload); });
       });
   }
 
@@ -621,7 +649,21 @@
   }
 
   // ---- 開始 ----
-  renderIntro();
+  // 直前のセッションで送信に失敗した回答が残っていれば、まずそれを再送信する
+  const pendingRaw = sessionStorage.getItem('experiment_pendingCO_' + good);
+  if(pendingRaw){
+    try{
+      const pendingPayload = JSON.parse(pendingRaw);
+      app.innerHTML = '<div class="loading-screen"><div class="spinner"></div>' +
+        '<p>前回未送信だった回答が見つかりました。送信しています…</p></div>';
+      sendCOPayload(pendingPayload);
+    }catch(e){
+      sessionStorage.removeItem('experiment_pendingCO_' + good);
+      renderIntro();
+    }
+  } else {
+    renderIntro();
+  }
 
 })();
 </script>
