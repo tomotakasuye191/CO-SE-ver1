@@ -164,7 +164,9 @@
   const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
 
   // ▼ サイト2のURL（同一リポジトリ内のパスに合わせて調整してください）
-  const SITE2_URL = "../site2/index.html";
+  // ▼ リポジトリの絶対URL（全ページ遷移をこれ基準にすることで相対パスの事故を防ぐ）
+  const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
+  const SITE2_URL = BASE_URL + "site2/index.html";
 
   const form = document.getElementById('entryForm');
   const submitBtn = document.getElementById('submitBtn');
