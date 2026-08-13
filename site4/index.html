@@ -259,6 +259,11 @@
 
   const app = document.getElementById('app');
 
+  // GASのコールドスタート対策：ページを開いた時点で軽く一度呼んでおく（結果は使わない）
+  try{
+    fetch(GAS_URL, { method: 'GET', mode: 'no-cors' }).catch(function(){});
+  }catch(e){}
+
   function fail(msg, retryFn){
     const retryHtml = retryFn
       ? '<button class="retry" id="retryActionBtn">再送信する</button>'
@@ -605,7 +610,7 @@
     sendCOPayload(payload);
   }
 
-  function sendCOPayload(payload){
+  function sendCOPayload(payload, isAutoRetry){
     app.innerHTML =
       '<div class="loading-screen"><div class="spinner"></div><p>結果を記録しています…</p></div>';
 
@@ -633,6 +638,11 @@
         sessionStorage.removeItem('experiment_pendingCO_' + good);
         goToNext();
       }).catch(function(err){
+        if(!isAutoRetry){
+          // 1回だけ自動で再試行してから、ユーザーにエラーを見せる
+          setTimeout(function(){ sendCOPayload(payload, true); }, 800);
+          return;
+        }
         fail('通信エラーが発生しました：' + err.message + '<br>回答データは保存されているので、再送信できます。',
              function(){ sendCOPayload(payload); });
       });
