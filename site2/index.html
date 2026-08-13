@@ -159,6 +159,11 @@
   // ▼ GASウェブアプリのURL（site1と同じもの）
   const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
 
+  // GASのコールドスタート対策：ページを開いた時点で軽く一度呼んでおく（結果は使わない）
+  try{
+    fetch(GAS_URL, { method: 'GET', mode: 'no-cors' }).catch(function(){});
+  }catch(e){}
+
   // 財ごとの表示名・6属性（GAS側 ATTRIBUTES と対応させること）
   const GOOD_LABELS = {
     yogurt: 'ヨーグルト', rice: 'お米', wine: 'ワイン', chocolate: 'チョコレート'
@@ -258,36 +263,39 @@
     }
     updateState();
 
-    nextBtn.addEventListener('click', async function(){
+    nextBtn.addEventListener('click', function(){
       if(selected.length !== 2) return;
       nextBtn.disabled = true;
       showMessage('記録しています…', 'loading');
-
-      try{
-        const res = await fetch(GAS_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'submitImportance', id: id, good: good, items: selected })
-        });
-        const data = await res.json();
-
-        if(data.status !== 'ok'){
-          showMessage(data.message || '記録に失敗しました。', 'error');
-          nextBtn.disabled = false;
-          return;
-        }
-
-        const query = new URLSearchParams({
-          id: id, group: group, good1: good1, good2: good2, current: current,
-          good: good, item1: selected[0], item2: selected[1]
-        });
-        window.location.href = SITE3_URL + '?' + query.toString();
-
-      }catch(err){
-        showMessage('通信エラーが発生しました。再度お試しください。', 'error');
-        nextBtn.disabled = false;
-      }
+      submitImportance(false);
     });
+
+    function submitImportance(isAutoRetry){
+      fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'submitImportance', id: id, good: good, items: selected })
+      }).then(function(res){ return res.json(); })
+        .then(function(data){
+          if(data.status !== 'ok'){
+            showMessage(data.message || '記録に失敗しました。', 'error');
+            nextBtn.disabled = false;
+            return;
+          }
+          const query = new URLSearchParams({
+            id: id, group: group, good1: good1, good2: good2, current: current,
+            good: good, item1: selected[0], item2: selected[1]
+          });
+          window.location.href = SITE3_URL + '?' + query.toString();
+        }).catch(function(){
+          if(!isAutoRetry){
+            setTimeout(function(){ submitImportance(true); }, 800);
+            return;
+          }
+          showMessage('通信エラーが発生しました。再度お試しください。', 'error');
+          nextBtn.disabled = false;
+        });
+    }
   }
 </script>
 
