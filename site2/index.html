@@ -195,6 +195,14 @@
   sessionStorage.setItem('experiment_good2', good2);
   sessionStorage.setItem('experiment_current', current);
 
+  // サイト4の表示を速くするため、回答している間に裏で21枚の画像を先読みしておく
+  if(good){
+    for(let i = 1; i <= 21; i++){
+      const preloadImg = new Image();
+      preloadImg.src = "https://tomotakasuye191.github.io/CO-SE-ver1/images/" + good + "/" + i + ".jpg";
+    }
+  }
+
   const titleEl = document.getElementById('title');
   const descEl = document.getElementById('desc');
   const optionsEl = document.getElementById('options');
