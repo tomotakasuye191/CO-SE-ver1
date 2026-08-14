@@ -1,278 +1,266 @@
-// 各財21商品分のデータ（サイト4で使用）
-window.PRODUCTS = {
+// 2回目CO用：各財20商品分の新しいデータ（サイト4で使用）
+window.PRODUCTS_ROUND2 = {
   "yogurt": [
     {
-      "id": 1,
-      "image": "yogurt/1.jpg",
-      "name": "オイコス(oikos) プレーン 砂糖不使用",
+      "id": "b1",
+      "image": "yogurt/b1.jpg",
+      "name": "おなかにおいしいヨーグルト",
       "attrs": {
-        "price": 160,
-        "volume": "123g",
-        "expiry": "製造から18日",
-        "nutrition": "たんぱく質13g/脂質0g/炭水化物4.4g/食塩相当量0.1g",
-        "calorie": "72kcal（1カップ(123g)当たり）"
-      }
-    },
-    {
-      "id": 2,
-      "image": "yogurt/2.jpg",
-      "name": "BifiX ヨーグルト プレーン",
-      "attrs": {
-        "price": 250,
-        "volume": "400g",
-        "expiry": "製造から16日",
-        "nutrition": "たんぱく質3.6g/脂質3.0g/炭水化物5.3g/食塩相当量0.14g",
-        "calorie": "62kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 3,
-      "image": "yogurt/3.jpg",
-      "name": "CO・OP プレーンヨーグルト(BB-12菌)",
-      "attrs": {
-        "price": 210,
-        "volume": "450g",
-        "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物4.9g/食塩相当量0.13g",
-        "calorie": "62kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 4,
-      "image": "yogurt/4.jpg",
-      "name": "セブンプレミアム 北海道産生乳100% プレーンヨーグルト",
-      "attrs": {
-        "price": 180,
-        "volume": "400g",
-        "expiry": "製造から16日",
-        "nutrition": "たんぱく質3.5g/脂質3.5g/炭水化物5.0g/食塩相当量0.14g",
-        "calorie": "67kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 5,
-      "image": "yogurt/5.jpg",
-      "name": "Danone ビオ プレーン",
-      "attrs": {
-        "price": 210,
-        "volume": "400g",
-        "expiry": "製造から20日",
-        "nutrition": "たんぱく質3.6g/脂質3.0g/炭水化物5.2g/食塩相当量0.15g",
-        "calorie": "64kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 6,
-      "image": "yogurt/6.jpg",
-      "name": "トップバリュ ビフィズスヨーグルト プレーン",
-      "attrs": {
-        "price": 170,
-        "volume": "450g",
-        "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物4.8g/食塩相当量0.13g",
-        "calorie": "61kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 7,
-      "image": "yogurt/7.jpg",
-      "name": "森永 濃密ギリシャヨーグルト パルテノ プレーン(はちみつ付き)",
-      "attrs": {
-        "price": 170,
-        "volume": "80g(+はちみつ8g)",
-        "expiry": "製造から20日",
-        "nutrition": "たんぱく質8.0g/脂質5.0g/炭水化物9.0g/食塩相当量0.15g",
-        "calorie": "108kcal（1個(80g+はちみつ)当たり）"
-      }
-    },
-    {
-      "id": 8,
-      "image": "yogurt/8.jpg",
-      "name": "ファミリーマート のむヨーグルト クリーミープレーン",
-      "attrs": {
-        "price": 140,
-        "volume": "240g",
-        "expiry": "製造から15日",
-        "nutrition": "たんぱく質7.7g/脂質6.9g/炭水化物21.7g/食塩相当量0.24g",
-        "calorie": "217kcal（1本(240g)当たり）"
-      }
-    },
-    {
-      "id": 9,
-      "image": "yogurt/9.jpg",
-      "name": "よつ葉 北海道十勝 生乳100% プレーンヨーグルト",
-      "attrs": {
-        "price": 250,
+        "price": 168,
         "volume": "400g",
         "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.6g/脂質3.3g/炭水化物5.0g/食塩相当量0.13g",
+        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物5.5g/食塩相当量0.14g",
         "calorie": "65kcal（100gあたり）"
       }
     },
     {
-      "id": 10,
-      "image": "yogurt/10.jpg",
-      "name": "ローソンセレクト のむヨーグルト プレーン",
+      "id": "b2",
+      "image": "yogurt/b2.jpg",
+      "name": "オハヨー乳業 ぜいたく果実 いちごヨーグルト",
       "attrs": {
-        "price": 140,
-        "volume": "270g",
-        "expiry": "製造から15日",
-        "nutrition": "たんぱく質8.4g/脂質4.9g/炭水化物24.6g/食塩相当量0.24g",
-        "calorie": "175kcal（1本(270g)当たり）"
-      }
-    },
-    {
-      "id": 11,
-      "image": "yogurt/11.jpg",
-      "name": "伊藤園 毎日快調ヨーグルト",
-      "attrs": {
-        "price": 210,
-        "volume": "320g×4個",
+        "price": 148,
+        "volume": "140g",
         "expiry": "製造から16日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物5.0g/食塩相当量0.13g",
-        "calorie": "62kcal（100gあたり）"
+        "nutrition": "たんぱく質4.3g/脂質3.0g/炭水化物20.0g/食塩相当量0.13g",
+        "calorie": "128kcal（1個(140g)当たり）"
       }
     },
     {
-      "id": 12,
-      "image": "yogurt/12.jpg",
-      "name": "九州乳業 みどり牛乳ヨーグルト プレーン(プロバイオティクス)",
+      "id": "b3",
+      "image": "yogurt/b3.jpg",
+      "name": "オハヨー乳業 贅沢生乳ヨーグルト",
       "attrs": {
-        "price": 280,
-        "volume": "500g",
-        "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物4.9g/食塩相当量0.13g",
-        "calorie": "62kcal（100gあたり）"
+        "price": 168,
+        "volume": "180g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質6.0g/脂質5.8g/炭水化物9.5g/食塩相当量0.16g",
+        "calorie": "116kcal（1個(180g)当たり）"
       }
     },
     {
-      "id": 13,
-      "image": "yogurt/13.jpg",
-      "name": "小岩井 生乳100% ヨーグルト",
+      "id": "b4",
+      "image": "yogurt/b4.jpg",
+      "name": "グリコ 朝食りんごヨーグルト",
       "attrs": {
-        "price": 240,
-        "volume": "400g",
-        "expiry": "製造から17日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物4.9g/食塩相当量0.13g",
-        "calorie": "62kcal（100gあたり）"
+        "price": 138,
+        "volume": "140g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質3.9g/脂質2.8g/炭水化物20.5g/食塩相当量0.13g",
+        "calorie": "122kcal（1個(140g)当たり）"
       }
     },
     {
-      "id": 14,
-      "image": "yogurt/14.jpg",
-      "name": "松本牧場 信州プレーンヨーグルト(砂糖不使用)",
-      "attrs": {
-        "price": 300,
-        "volume": "400g",
-        "expiry": "製造から14日",
-        "nutrition": "たんぱく質3.5g/脂質3.0g/炭水化物4.5g/食塩相当量0.13g",
-        "calorie": "58kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 15,
-      "image": "yogurt/15.jpg",
-      "name": "森永 ビヒダス プレーンヨーグルト",
+      "id": "b5",
+      "image": "yogurt/b5.jpg",
+      "name": "タカナシ 北海道生まれのコクと旨みヨーグルト",
       "attrs": {
         "price": 210,
-        "volume": "450g",
-        "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物4.9g/食塩相当量0.13g",
-        "calorie": "62kcal（100gあたり）"
+        "volume": "400g",
+        "expiry": "製造から17日",
+        "nutrition": "たんぱく質3.6g/脂質3.8g/炭水化物5.2g/食塩相当量0.14g",
+        "calorie": "68kcal（100gあたり）"
       }
     },
     {
-      "id": 16,
-      "image": "yogurt/16.jpg",
-      "name": "森永 濃密ギリシャヨーグルト パルテノ プレーン(砂糖不使用)",
+      "id": "b6",
+      "image": "yogurt/b6.jpg",
+      "name": "ダノン オイコス ストロベリー",
       "attrs": {
-        "price": 160,
-        "volume": "100g",
+        "price": 168,
+        "volume": "113g",
+        "expiry": "製造から18日",
+        "nutrition": "たんぱく質11.0g/脂質0g/炭水化物10.0g/食塩相当量0.11g",
+        "calorie": "92kcal（1個(113g)当たり）"
+      }
+    },
+    {
+      "id": "b7",
+      "image": "yogurt/b7.jpg",
+      "name": "チチヤス クラシックヨーグルト",
+      "attrs": {
+        "price": 210,
+        "volume": "400g",
+        "expiry": "製造から18日",
+        "nutrition": "たんぱく質3.3g/脂質3.0g/炭水化物5.0g/食塩相当量0.13g",
+        "calorie": "63kcal（100gあたり）"
+      }
+    },
+    {
+      "id": "b8",
+      "image": "yogurt/b8.jpg",
+      "name": "チチヤス しっかり鉄分ヨーグルト",
+      "attrs": {
+        "price": 148,
+        "volume": "115g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質3.6g/脂質2.5g/炭水化物15.5g/食塩相当量0.12g",
+        "calorie": "98kcal（1個(115g)当たり）"
+      }
+    },
+    {
+      "id": "b9",
+      "image": "yogurt/b9.jpg",
+      "name": "フジッコ カスピ海ヨーグルト プレーン",
+      "attrs": {
+        "price": 210,
+        "volume": "400g",
         "expiry": "製造から20日",
-        "nutrition": "たんぱく質9.9g/脂質5.0g/炭水化物4.6g/食塩相当量0.15g",
-        "calorie": "100kcal（1個(100g)当たり）"
+        "nutrition": "たんぱく質3.4g/脂質3.5g/炭水化物5.2g/食塩相当量0.13g",
+        "calorie": "68kcal（100gあたり）"
       }
     },
     {
-      "id": 17,
-      "image": "yogurt/17.jpg",
-      "name": "雪印メグミルク 恵 ガセリ菌SP株ヨーグルト(ドリンクタイプ)",
+      "id": "b10",
+      "image": "yogurt/b10.jpg",
+      "name": "ヤクルト ソフール プレーン",
       "attrs": {
-        "price": 140,
-        "volume": "100g",
+        "price": 178,
+        "volume": "380g",
+        "expiry": "製造から17日",
+        "nutrition": "たんぱく質3.3g/脂質3.0g/炭水化物5.3g/食塩相当量0.13g",
+        "calorie": "66kcal（100gあたり）"
+      }
+    },
+    {
+      "id": "b11",
+      "image": "yogurt/b11.jpg",
+      "name": "よつ葉 ホワイトコージ 飲むヨーグルト",
+      "attrs": {
+        "price": 168,
+        "volume": "180g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質6.1g/脂質4.2g/炭水化物12.5g/食塩相当量0.18g",
+        "calorie": "124kcal（1本(180g)当たり）"
+      }
+    },
+    {
+      "id": "b12",
+      "image": "yogurt/b12.jpg",
+      "name": "安曇野食品工房 家族の贅沢 プレーンヨーグルト",
+      "attrs": {
+        "price": 260,
+        "volume": "400g",
         "expiry": "製造から15日",
-        "nutrition": "たんぱく質3.2g/脂質4.0g/炭水化物11.0g/食塩相当量0.15g",
-        "calorie": "100kcal（1本(100g)当たり）"
+        "nutrition": "たんぱく質3.6g/脂質3.6g/炭水化物5.3g/食塩相当量0.14g",
+        "calorie": "70kcal（100gあたり）"
       }
     },
     {
-      "id": 18,
-      "image": "yogurt/18.jpg",
-      "name": "雪印メグミルク ナチュレ恵 megumi プレーン",
+      "id": "b13",
+      "image": "yogurt/b13.jpg",
+      "name": "森永 アロエヨーグルト",
       "attrs": {
-        "price": 230,
-        "volume": "400g",
-        "expiry": "製造から17日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物5.2g/食塩相当量0.13g",
-        "calorie": "65kcal（100gあたり）"
+        "price": 118,
+        "volume": "118g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質3.0g/脂質1.0g/炭水化物21.0g/食塩相当量0.11g",
+        "calorie": "108kcal（1個(118g)当たり）"
       }
     },
     {
-      "id": 19,
-      "image": "yogurt/19.jpg",
-      "name": "明治 プロビオヨーグルトR-1 低脂肪",
+      "id": "b14",
+      "image": "yogurt/b14.jpg",
+      "name": "森永 トリプルヨーグルト",
+      "attrs": {
+        "price": 138,
+        "volume": "125g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質4.0g/脂質1.5g/炭水化物17.0g/食塩相当量0.12g",
+        "calorie": "96kcal（1個(125g)当たり）"
+      }
+    },
+    {
+      "id": "b15",
+      "image": "yogurt/b15.jpg",
+      "name": "雪印メグミルク 牧場の朝ヨーグルト",
+      "attrs": {
+        "price": 148,
+        "volume": "150g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質4.5g/脂質1.0g/炭水化物16.5g/食塩相当量0.14g",
+        "calorie": "92kcal（1個(150g)当たり）"
+      }
+    },
+    {
+      "id": "b16",
+      "image": "yogurt/b16.jpg",
+      "name": "筑波乳業 濃い練乳ヨーグルト",
+      "attrs": {
+        "price": 158,
+        "volume": "115g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物22.0g/食塩相当量0.13g",
+        "calorie": "130kcal（1個(115g)当たり）"
+      }
+    },
+    {
+      "id": "b17",
+      "image": "yogurt/b17.jpg",
+      "name": "日本ルナ スキル",
+      "attrs": {
+        "price": 148,
+        "volume": "150g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質3.9g/脂質1.2g/炭水化物16.0g/食塩相当量0.13g",
+        "calorie": "90kcal（1個(150g)当たり）"
+      }
+    },
+    {
+      "id": "b18",
+      "image": "yogurt/b18.jpg",
+      "name": "日本ルナ バニラヨーグルト",
+      "attrs": {
+        "price": 148,
+        "volume": "150g",
+        "expiry": "製造から16日",
+        "nutrition": "たんぱく質3.8g/脂質1.8g/炭水化物18.0g/食塩相当量0.13g",
+        "calorie": "100kcal（1個(150g)当たり）"
+      }
+    },
+    {
+      "id": "b19",
+      "image": "yogurt/b19.jpg",
+      "name": "明治 プロビオヨーグルトLG21",
       "attrs": {
         "price": 140,
         "volume": "112g",
         "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.4g/脂質0.5g/炭水化物9.0g/食塩相当量0.13g",
-        "calorie": "51kcal（1個(112g)当たり）"
+        "nutrition": "たんぱく質3.9g/脂質3.0g/炭水化物10.0g/食塩相当量0.13g",
+        "calorie": "80kcal（1個(112g)当たり）"
       }
     },
     {
-      "id": 20,
-      "image": "yogurt/20.jpg",
-      "name": "明治 ブルガリアヨーグルトLB81 プレーン",
-      "attrs": {
-        "price": 250,
-        "volume": "400g",
-        "expiry": "製造から17日",
-        "nutrition": "たんぱく質3.4g/脂質3.0g/炭水化物5.3g/食塩相当量0.13g",
-        "calorie": "62kcal（100gあたり）"
-      }
-    },
-    {
-      "id": 21,
-      "image": "yogurt/21.jpg",
-      "name": "明治 プロビオヨーグルトR-1 (通常タイプ)",
+      "id": "b20",
+      "image": "yogurt/b20.jpg",
+      "name": "明治 プロビオヨーグルトPA-3",
       "attrs": {
         "price": 140,
         "volume": "112g",
         "expiry": "製造から18日",
-        "nutrition": "たんぱく質3.9g/脂質3.3g/炭水化物10.8g/食塩相当量0.13g",
-        "calorie": "89kcal（1個(112g)当たり）"
+        "nutrition": "たんぱく質3.9g/脂質3.1g/炭水化物10.2g/食塩相当量0.13g",
+        "calorie": "82kcal（1個(112g)当たり）"
       }
     }
   ],
   "rice": [
     {
-      "id": 1,
-      "image": "rice/1.jpg",
-      "name": "あきたこまち",
+      "id": "b1",
+      "image": "rice/b1.jpg",
+      "name": "あいちのかおり",
       "attrs": {
-        "price": 4680,
-        "origin": "秋田県",
+        "price": 3980,
+        "origin": "愛知県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
       }
     },
     {
-      "id": 2,
-      "image": "rice/2.jpg",
-      "name": "いちほまれ",
+      "id": "b2",
+      "image": "rice/b2.jpg",
+      "name": "あきさかり",
       "attrs": {
-        "price": 5480,
+        "price": 4480,
         "origin": "福井県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
@@ -280,83 +268,83 @@ window.PRODUCTS = {
       }
     },
     {
-      "id": 3,
-      "image": "rice/3.jpg",
-      "name": "いのちの壱",
+      "id": "b3",
+      "image": "rice/b3.jpg",
+      "name": "あきたこまちR",
       "attrs": {
-        "price": 2680,
-        "origin": "岐阜県",
-        "volume": "2kg",
+        "price": 4780,
+        "origin": "秋田県",
+        "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
       }
     },
     {
-      "id": 4,
-      "image": "rice/4.jpg",
-      "name": "キヌヒカリ",
+      "id": "b4",
+      "image": "rice/b4.jpg",
+      "name": "おいでまい",
       "attrs": {
-        "price": 3980,
-        "origin": "滋賀県",
+        "price": 4680,
+        "origin": "香川県",
         "volume": "5kg",
-        "harvest": "古米(令和6年産)",
-        "polish": "玄米"
+        "harvest": "新米(令和7年産)",
+        "polish": "白米"
       }
     },
     {
-      "id": 5,
-      "image": "rice/5.jpg",
-      "name": "きらら397",
+      "id": "b5",
+      "image": "rice/b5.jpg",
+      "name": "さがの華",
       "attrs": {
         "price": 4180,
-        "origin": "北海道",
+        "origin": "佐賀県",
         "volume": "5kg",
-        "harvest": "新米(令和7年産)",
+        "harvest": "古米(令和6年産)",
         "polish": "白米"
       }
     },
     {
-      "id": 6,
-      "image": "rice/6.jpg",
-      "name": "コシヒカリ",
+      "id": "b6",
+      "image": "rice/b6.jpg",
+      "name": "だってたくさん食べるんだもん。",
       "attrs": {
-        "price": 5980,
-        "origin": "新潟県",
+        "price": 4380,
+        "origin": "山形県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "無洗米"
       }
     },
     {
-      "id": 7,
-      "image": "rice/7.jpg",
-      "name": "さがびより",
+      "id": "b7",
+      "image": "rice/b7.jpg",
+      "name": "つがるロマン",
       "attrs": {
-        "price": 4980,
-        "origin": "佐賀県",
+        "price": 4080,
+        "origin": "青森県",
+        "volume": "5kg",
+        "harvest": "古米(令和6年産)",
+        "polish": "白米"
+      }
+    },
+    {
+      "id": "b8",
+      "image": "rice/b8.jpg",
+      "name": "てんこもり",
+      "attrs": {
+        "price": 4280,
+        "origin": "富山県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
       }
     },
     {
-      "id": 8,
-      "image": "rice/8.jpg",
-      "name": "ササニシキ",
+      "id": "b9",
+      "image": "rice/b9.jpg",
+      "name": "はえぬき",
       "attrs": {
-        "price": 4580,
-        "origin": "宮城県",
-        "volume": "5kg",
-        "harvest": "古米(令和6年産)",
-        "polish": "玄米"
-      }
-    },
-    {
-      "id": 9,
-      "image": "rice/9.jpg",
-      "name": "つや姫",
-      "attrs": {
-        "price": 5680,
+        "price": 4480,
         "origin": "山形県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
@@ -364,9 +352,33 @@ window.PRODUCTS = {
       }
     },
     {
-      "id": 10,
-      "image": "rice/10.jpg",
-      "name": "ななつぼし",
+      "id": "b10",
+      "image": "rice/b10.jpg",
+      "name": "ハツシモ",
+      "attrs": {
+        "price": 4980,
+        "origin": "岐阜県",
+        "volume": "5kg",
+        "harvest": "新米(令和7年産)",
+        "polish": "白米"
+      }
+    },
+    {
+      "id": "b11",
+      "image": "rice/b11.jpg",
+      "name": "ハナエチゼン",
+      "attrs": {
+        "price": 3880,
+        "origin": "福井県",
+        "volume": "5kg",
+        "harvest": "古米(令和6年産)",
+        "polish": "玄米"
+      }
+    },
+    {
+      "id": "b12",
+      "image": "rice/b12.jpg",
+      "name": "ふっくりんこ",
       "attrs": {
         "price": 4680,
         "origin": "北海道",
@@ -376,642 +388,582 @@ window.PRODUCTS = {
       }
     },
     {
-      "id": 11,
-      "image": "rice/11.jpg",
-      "name": "にこまる",
+      "id": "b13",
+      "image": "rice/b13.jpg",
+      "name": "まっしぐら",
       "attrs": {
-        "price": 3480,
-        "origin": "熊本県",
-        "volume": "5kg",
-        "harvest": "古古米(令和5年産)",
-        "polish": "白米"
-      }
-    },
-    {
-      "id": 12,
-      "image": "rice/12.jpg",
-      "name": "ひとめぼれ",
-      "attrs": {
-        "price": 4580,
-        "origin": "宮城県",
-        "volume": "5kg",
-        "harvest": "新米(令和7年産)",
-        "polish": "白米"
-      }
-    },
-    {
-      "id": 13,
-      "image": "rice/13.jpg",
-      "name": "ヒノヒカリ",
-      "attrs": {
-        "price": 4280,
-        "origin": "宮崎県",
-        "volume": "5kg",
-        "harvest": "古米(令和6年産)",
-        "polish": "玄米"
-      }
-    },
-    {
-      "id": 14,
-      "image": "rice/14.jpg",
-      "name": "ミルキークイーン",
-      "attrs": {
-        "price": 4780,
-        "origin": "茨城県",
-        "volume": "5kg",
-        "harvest": "新米(令和7年産)",
-        "polish": "白米"
-      }
-    },
-    {
-      "id": 15,
-      "image": "rice/15.jpg",
-      "name": "ゆめぴりか",
-      "attrs": {
-        "price": 5880,
-        "origin": "北海道",
-        "volume": "5kg",
-        "harvest": "新米(令和7年産)",
-        "polish": "無洗米"
-      }
-    },
-    {
-      "id": 16,
-      "image": "rice/16.jpg",
-      "name": "銀の朏(ぎんのみかづき)",
-      "attrs": {
-        "price": 2980,
-        "origin": "新潟県",
-        "volume": "1kg",
-        "harvest": "新米(令和7年産)",
-        "polish": "白米"
-      }
-    },
-    {
-      "id": 17,
-      "image": "rice/17.jpg",
-      "name": "新之助",
-      "attrs": {
-        "price": 5780,
-        "origin": "新潟県",
-        "volume": "5kg",
-        "harvest": "新米(令和7年産)",
-        "polish": "白米"
-      }
-    },
-    {
-      "id": 18,
-      "image": "rice/18.jpg",
-      "name": "青天の霹靂",
-      "attrs": {
-        "price": 4980,
+        "price": 3980,
         "origin": "青森県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
+        "polish": "白米"
+      }
+    },
+    {
+      "id": "b14",
+      "image": "rice/b14.jpg",
+      "name": "銀河のしずく",
+      "attrs": {
+        "price": 5080,
+        "origin": "岩手県",
+        "volume": "5kg",
+        "harvest": "新米(令和7年産)",
+        "polish": "白米"
+      }
+    },
+    {
+      "id": "b15",
+      "image": "rice/b15.jpg",
+      "name": "咲き誇り",
+      "attrs": {
+        "price": 4180,
+        "origin": "静岡県",
+        "volume": "5kg",
+        "harvest": "新米(令和7年産)",
+        "polish": "白米"
+      }
+    },
+    {
+      "id": "b16",
+      "image": "rice/b16.jpg",
+      "name": "森のくまさん",
+      "attrs": {
+        "price": 4380,
+        "origin": "熊本県",
+        "volume": "5kg",
+        "harvest": "新米(令和7年産)",
         "polish": "無洗米"
       }
     },
     {
-      "id": 19,
-      "image": "rice/19.jpg",
-      "name": "雪若丸",
+      "id": "b17",
+      "image": "rice/b17.jpg",
+      "name": "星空舞",
       "attrs": {
-        "price": 5080,
-        "origin": "山形県",
+        "price": 4580,
+        "origin": "島根県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
       }
     },
     {
-      "id": 20,
-      "image": "rice/20.jpg",
-      "name": "富富富(ふふふ)",
+      "id": "b18",
+      "image": "rice/b18.jpg",
+      "name": "天のつぶ",
       "attrs": {
-        "price": 2280,
-        "origin": "富山県",
-        "volume": "2kg",
+        "price": 3880,
+        "origin": "福島県",
+        "volume": "5kg",
         "harvest": "古米(令和6年産)",
-        "polish": "玄米"
+        "polish": "白米"
       }
     },
     {
-      "id": 21,
-      "image": "rice/21.jpg",
-      "name": "龍の瞳",
+      "id": "b19",
+      "image": "rice/b19.jpg",
+      "name": "風さやか",
       "attrs": {
-        "price": 6480,
-        "origin": "岐阜県",
+        "price": 4780,
+        "origin": "長野県",
         "volume": "5kg",
         "harvest": "新米(令和7年産)",
         "polish": "白米"
+      }
+    },
+    {
+      "id": "b20",
+      "image": "rice/b20.jpg",
+      "name": "夢つくし",
+      "attrs": {
+        "price": 4280,
+        "origin": "福岡県",
+        "volume": "5kg",
+        "harvest": "新米(令和7年産)",
+        "polish": "無洗米"
       }
     }
   ],
   "wine": [
     {
-      "id": 1,
-      "image": "wine/1.jpg",
-      "name": "アルマヴィーヴァ",
+      "id": "b1",
+      "image": "wine/b1.jpg",
+      "name": "DRC モンラッシェ",
       "attrs": {
-        "price": 28000,
-        "origin": "マイポ・ヴァレー プエンテ・アルト",
+        "price": 65000,
+        "origin": "モンラッシェ(ブルゴーニュ)",
+        "abv": 13.0,
+        "color": "白",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b2",
+      "image": "wine/b2.jpg",
+      "name": "ガヤ エルニオ",
+      "attrs": {
+        "price": 42000,
+        "origin": "バルバレスコ(ピエモンテ)",
         "abv": 14.0,
         "color": "赤",
         "taste": "辛口"
       }
     },
     {
-      "id": 2,
-      "image": "wine/2.jpg",
-      "name": "ヴェリテ ラ・ジョワ",
+      "id": "b3",
+      "image": "wine/b3.jpg",
+      "name": "カレラ ピノ・ノワール",
       "attrs": {
-        "price": 46000,
-        "origin": "ソノマ・カウンティ",
-        "abv": 14.5,
+        "price": 16000,
+        "origin": "セントラル・コースト(カリフォルニア)",
+        "abv": 14.0,
         "color": "赤",
         "taste": "辛口"
       }
     },
     {
-      "id": 3,
-      "image": "wine/3.jpg",
-      "name": "オーパス・ワン",
-      "attrs": {
-        "price": 48000,
-        "origin": "ナパ・ヴァレー オークヴィル",
-        "abv": 14.5,
-        "color": "赤",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 4,
-      "image": "wine/4.jpg",
-      "name": "キスラー ヴァイン・ヒル・ヴィンヤード シャルドネ",
+      "id": "b4",
+      "image": "wine/b4.jpg",
+      "name": "キスラー シャルドネ",
       "attrs": {
         "price": 19000,
-        "origin": "ソノマ・コースト",
+        "origin": "ソノマ・コースト(カリフォルニア)",
         "abv": 14.5,
         "color": "白",
         "taste": "辛口"
       }
     },
     {
-      "id": 5,
-      "image": "wine/5.jpg",
-      "name": "クラウディ・ベイ テ・ココ",
+      "id": "b5",
+      "image": "wine/b5.jpg",
+      "name": "サンセル(アンリ・ブルジョワ)",
       "attrs": {
-        "price": 6800,
-        "origin": "マールボロ",
-        "abv": 14.0,
+        "price": 4800,
+        "origin": "サンセール(ロワール)",
+        "abv": 13.0,
         "color": "白",
         "taste": "辛口"
       }
     },
     {
-      "id": 6,
-      "image": "wine/6.jpg",
-      "name": "ケンゾー・エステイト あさつゆ",
-      "attrs": {
-        "price": 8800,
-        "origin": "ナパ・ヴァレー",
-        "abv": 13.5,
-        "color": "白",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 7,
-      "image": "wine/7.jpg",
-      "name": "ケンゾー・エステイト 紫鈴(Rindo)",
-      "attrs": {
-        "price": 15500,
-        "origin": "ナパ・ヴァレー",
-        "abv": 14.5,
-        "color": "赤",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 8,
-      "image": "wine/8.jpg",
-      "name": "コングスガード シャルドネ",
-      "attrs": {
-        "price": 26000,
-        "origin": "ナパ・ヴァレー",
-        "abv": 14.5,
-        "color": "白",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 9,
-      "image": "wine/9.jpg",
-      "name": "サッシカイア",
+      "id": "b6",
+      "image": "wine/b6.jpg",
+      "name": "シャトー・オー・ブリオン",
       "attrs": {
         "price": 58000,
-        "origin": "ボルゲリ",
-        "abv": 14.0,
+        "origin": "ペサック・レオニャン(ボルドー)",
+        "abv": 13.5,
         "color": "赤",
         "taste": "辛口"
       }
     },
     {
-      "id": 10,
-      "image": "wine/10.jpg",
-      "name": "シャトー・スデュイロー",
+      "id": "b7",
+      "image": "wine/b7.jpg",
+      "name": "シャトー・オー・ブリオン・ブラン",
       "attrs": {
-        "price": 8200,
-        "origin": "ソーテルヌ",
+        "price": 62000,
+        "origin": "ペサック・レオニャン(ボルドー)",
         "abv": 13.5,
+        "color": "白",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b8",
+      "image": "wine/b8.jpg",
+      "name": "シャトー・ディケム",
+      "attrs": {
+        "price": 48000,
+        "origin": "ソーテルヌ(ボルドー)",
+        "abv": 14.0,
         "color": "白",
         "taste": "甘口"
       }
     },
     {
-      "id": 11,
-      "image": "wine/11.jpg",
-      "name": "シャトー・モンペラ 赤",
+      "id": "b9",
+      "image": "wine/b9.jpg",
+      "name": "シャトー・ペトリュス",
       "attrs": {
-        "price": 3200,
-        "origin": "ボルドー・シューペリュール",
-        "abv": 13.5,
-        "color": "赤",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 12,
-      "image": "wine/12.jpg",
-      "name": "シャブリ グラン・クリュ レ・プリューズ",
-      "attrs": {
-        "price": 14500,
-        "origin": "シャブリ(ブルゴーニュ)",
-        "abv": 13.0,
-        "color": "白",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 13,
-      "image": "wine/13.jpg",
-      "name": "シュロス・ヨハニスベルク リースリング",
-      "attrs": {
-        "price": 9200,
-        "origin": "ラインガウ",
-        "abv": 11.5,
-        "color": "白",
-        "taste": "やや甘口"
-      }
-    },
-    {
-      "id": 14,
-      "image": "wine/14.jpg",
-      "name": "シャトー・タルボ",
-      "attrs": {
-        "price": 9800,
-        "origin": "サン・ジュリアン",
-        "abv": 13.5,
-        "color": "赤",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 15,
-      "image": "wine/15.jpg",
-      "name": "テルラーノ ヴォルベルグ・リゼルヴァ ピノ・ビアンコ",
-      "attrs": {
-        "price": 6200,
-        "origin": "アルト・アディジェ",
-        "abv": 14.0,
-        "color": "白",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 16,
-      "image": "wine/16.jpg",
-      "name": "ドメーヌ・ド・バロナーク 白",
-      "attrs": {
-        "price": 3900,
-        "origin": "リムー(ラングドック)",
-        "abv": 13.0,
-        "color": "白",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 17,
-      "image": "wine/17.jpg",
-      "name": "トリンバック キュヴェ・フレデリック・エミール",
-      "attrs": {
-        "price": 8800,
-        "origin": "アルザス",
-        "abv": 13.0,
-        "color": "白",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 18,
-      "image": "wine/18.jpg",
-      "name": "バローロ ピオ・チェーザレ",
-      "attrs": {
-        "price": 7800,
-        "origin": "バローロ(ピエモンテ)",
-        "abv": 14.0,
-        "color": "赤",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 19,
-      "image": "wine/19.jpg",
-      "name": "ベガ・シシリア ウニコ 2009",
-      "attrs": {
-        "price": 68000,
-        "origin": "リベラ・デル・ドゥエロ",
-        "abv": 14.0,
-        "color": "赤",
-        "taste": "辛口"
-      }
-    },
-    {
-      "id": 20,
-      "image": "wine/20.jpg",
-      "name": "ペンフォールズ RWT シラーズ",
-      "attrs": {
-        "price": 22000,
-        "origin": "バロッサ・ヴァレー",
+        "price": 65000,
+        "origin": "ポムロール(ボルドー)",
         "abv": 14.5,
         "color": "赤",
         "taste": "辛口"
       }
     },
     {
-      "id": 21,
-      "image": "wine/21.jpg",
-      "name": "ムルソー ル・ポリュゾ",
+      "id": "b10",
+      "image": "wine/b10.jpg",
+      "name": "シャトー・マルゴー",
       "attrs": {
-        "price": 16500,
+        "price": 55000,
+        "origin": "マルゴー(ボルドー)",
+        "abv": 13.5,
+        "color": "赤",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b11",
+      "image": "wine/b11.jpg",
+      "name": "シャトー・ムートン・ロートシルト",
+      "attrs": {
+        "price": 56000,
+        "origin": "ポイヤック(ボルドー)",
+        "abv": 13.5,
+        "color": "赤",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b12",
+      "image": "wine/b12.jpg",
+      "name": "シャトー・ラトゥール",
+      "attrs": {
+        "price": 57000,
+        "origin": "ポイヤック(ボルドー)",
+        "abv": 13.0,
+        "color": "赤",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b13",
+      "image": "wine/b13.jpg",
+      "name": "シャトー・ラフィット・ロートシルト",
+      "attrs": {
+        "price": 59000,
+        "origin": "ポイヤック(ボルドー)",
+        "abv": 13.0,
+        "color": "赤",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b14",
+      "image": "wine/b14.jpg",
+      "name": "シャトー・ルパン",
+      "attrs": {
+        "price": 63000,
+        "origin": "ポムロール(ボルドー)",
+        "abv": 14.5,
+        "color": "赤",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b15",
+      "image": "wine/b15.jpg",
+      "name": "ダーレンベルグ リースリング",
+      "attrs": {
+        "price": 3200,
+        "origin": "マクラーレン・ヴェイル(オーストラリア)",
+        "abv": 11.5,
+        "color": "白",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b16",
+      "image": "wine/b16.jpg",
+      "name": "ドメーヌ・ルフレーヴ ピュリニー・モンラッシェ",
+      "attrs": {
+        "price": 32000,
+        "origin": "ピュリニー・モンラッシェ(ブルゴーニュ)",
+        "abv": 13.0,
+        "color": "白",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b17",
+      "image": "wine/b17.jpg",
+      "name": "パルメイヤー シャルドネ",
+      "attrs": {
+        "price": 16000,
+        "origin": "ナパ・ヴァレー(カリフォルニア)",
+        "abv": 14.0,
+        "color": "白",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b18",
+      "image": "wine/b18.jpg",
+      "name": "ルイ・ジャド ムルソー",
+      "attrs": {
+        "price": 14000,
         "origin": "ムルソー(ブルゴーニュ)",
         "abv": 13.0,
         "color": "白",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b19",
+      "image": "wine/b19.jpg",
+      "name": "ルーチェ(Luce)",
+      "attrs": {
+        "price": 22000,
+        "origin": "トスカーナ(イタリア)",
+        "abv": 14.0,
+        "color": "赤",
+        "taste": "辛口"
+      }
+    },
+    {
+      "id": "b20",
+      "image": "wine/b20.jpg",
+      "name": "ロマネ・コンティ(DRC)",
+      "attrs": {
+        "price": 65000,
+        "origin": "ロマネ・コンティ(ブルゴーニュ)",
+        "abv": 13.0,
+        "color": "赤",
         "taste": "辛口"
       }
     }
   ],
   "chocolate": [
     {
-      "id": 1,
-      "image": "chocolate/1.jpg",
-      "name": "GABA(ギャバ) ミルク",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
-        "calorie": "226kcal（1袋(51g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 2,
-      "image": "chocolate/2.jpg",
-      "name": "きのこの山",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
-        "calorie": "359kcal（1箱(74g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 3,
-      "image": "chocolate/3.jpg",
-      "name": "たけのこの里",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
-        "calorie": "339kcal（1箱(70g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 4,
-      "image": "chocolate/4.jpg",
-      "name": "アポロ",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
-        "calorie": "283kcal（1箱(58g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 5,
-      "image": "chocolate/5.jpg",
-      "name": "アルファベットチョコレート",
-      "attrs": {
-        "price": 220,
-        "cacao_percent": "30%",
-        "cacao_origin": "西アフリカ(ガーナ他)",
-        "calorie": "314kcal（1袋(58g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 6,
-      "image": "chocolate/6.jpg",
-      "name": "アルフォート ミニチョコレート",
+      "id": "b1",
+      "image": "chocolate/b1.jpg",
+      "name": "DARS(ダース)",
       "attrs": {
         "price": 210,
         "cacao_percent": "32%",
-        "cacao_origin": "非公開(西アフリカ系)",
-        "calorie": "238kcal（1袋(6枚)当たり）",
+        "cacao_origin": "ガーナ",
+        "calorie": "279kcal（1箱(45g)当たり）",
         "fairtrade": "無"
       }
     },
     {
-      "id": 7,
-      "image": "chocolate/7.jpg",
-      "name": "アーモンドチョコレート",
+      "id": "b2",
+      "image": "chocolate/b2.jpg",
+      "name": "LOOK(ルック)",
       "attrs": {
-        "price": 220,
-        "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
-        "calorie": "339kcal（1箱(74g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 8,
-      "image": "chocolate/8.jpg",
-      "name": "ガーナ ミルクチョコレート",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "35%",
-        "cacao_origin": "ガーナ",
-        "calorie": "280kcal（1枚(50g)当たり）",
-        "fairtrade": "有"
-      }
-    },
-    {
-      "id": 9,
-      "image": "chocolate/9.jpg",
-      "name": "ガーナ ホワイトチョコレート",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "非公表（ホワイトチョコのため該当なし）",
-        "cacao_origin": "ガーナ(カカオバター使用)",
-        "calorie": "294kcal（1枚(50g)当たり）",
-        "fairtrade": "有"
-      }
-    },
-    {
-      "id": 10,
-      "image": "chocolate/10.jpg",
-      "name": "キットカット",
-      "attrs": {
-        "price": 220,
-        "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
-        "calorie": "107kcal（ミニ1本当たり）",
-        "fairtrade": "有"
-      }
-    },
-    {
-      "id": 11,
-      "image": "chocolate/11.jpg",
-      "name": "チョコボール ピーナッツ",
-      "attrs": {
-        "price": 200,
-        "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
-        "calorie": "157kcal（1箱(28g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 12,
-      "image": "chocolate/12.jpg",
-      "name": "チョコレート効果 カカオ72%",
-      "attrs": {
-        "price": 220,
-        "cacao_percent": "72%",
-        "cacao_origin": "西アフリカ",
-        "calorie": "290kcal（1箱5枚(50g)当たり）",
-        "fairtrade": "有"
-      }
-    },
-    {
-      "id": 13,
-      "image": "chocolate/13.jpg",
-      "name": "チロルチョコ バラエティパック",
-      "attrs": {
-        "price": 220,
+        "price": 150,
         "cacao_percent": "30%",
         "cacao_origin": "非公開",
-        "calorie": "33kcal（1個当たり(平均)）",
+        "calorie": "253kcal（1箱(54g)当たり）",
         "fairtrade": "無"
       }
     },
     {
-      "id": 14,
-      "image": "chocolate/14.jpg",
-      "name": "パイの実",
+      "id": "b3",
+      "image": "chocolate/b3.jpg",
+      "name": "エブリバーガー",
       "attrs": {
-        "price": 220,
-        "cacao_percent": "32%",
-        "cacao_origin": "ガーナ",
-        "calorie": "339kcal（1箱(52g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 15,
-      "image": "chocolate/15.jpg",
-      "name": "ブラックサンダー",
-      "attrs": {
-        "price": 200,
-        "cacao_percent": "32%",
+        "price": 120,
+        "cacao_percent": "28%",
         "cacao_origin": "非公開",
-        "calorie": "180kcal（1本(33g)当たり）",
+        "calorie": "120kcal（1個当たり）",
         "fairtrade": "無"
       }
     },
     {
-      "id": 16,
-      "image": "chocolate/16.jpg",
-      "name": "マカダミアチョコレート",
+      "id": "b4",
+      "image": "chocolate/b4.jpg",
+      "name": "エンゼルパイ",
+      "attrs": {
+        "price": 150,
+        "cacao_percent": "30%",
+        "cacao_origin": "非公開",
+        "calorie": "372kcal（1箱6個(102g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b5",
+      "image": "chocolate/b5.jpg",
+      "name": "カレ・ド・ショコラ",
       "attrs": {
         "price": 250,
+        "cacao_percent": "55%",
+        "cacao_origin": "西アフリカ",
+        "calorie": "280kcal（1箱(48g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b6",
+      "image": "chocolate/b6.jpg",
+      "name": "クランキー",
+      "attrs": {
+        "price": 150,
+        "cacao_percent": "30%",
+        "cacao_origin": "ガーナ",
+        "calorie": "262kcal（1枚(53g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b7",
+      "image": "chocolate/b7.jpg",
+      "name": "クリスプチョコ",
+      "attrs": {
+        "price": 150,
+        "cacao_percent": "28%",
+        "cacao_origin": "非公開",
+        "calorie": "258kcal（1枚(45g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b8",
+      "image": "chocolate/b8.jpg",
+      "name": "ジューシーチョコレート",
+      "attrs": {
+        "price": 110,
+        "cacao_percent": "25%",
+        "cacao_origin": "非公開",
+        "calorie": "130kcal（1袋当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b9",
+      "image": "chocolate/b9.jpg",
+      "name": "セコイヤチョコレート",
+      "attrs": {
+        "price": 130,
+        "cacao_percent": "28%",
+        "cacao_origin": "非公開",
+        "calorie": "280kcal（1箱(75g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b10",
+      "image": "chocolate/b10.jpg",
+      "name": "チョコあ〜んぱん",
+      "attrs": {
+        "price": 100,
+        "cacao_percent": "25%",
+        "cacao_origin": "非公開",
+        "calorie": "150kcal（1個当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b11",
+      "image": "chocolate/b11.jpg",
+      "name": "チョコパイ",
+      "attrs": {
+        "price": 200,
+        "cacao_percent": "28%",
+        "cacao_origin": "非公開",
+        "calorie": "160kcal（1個当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b12",
+      "image": "chocolate/b12.jpg",
+      "name": "チョコバット",
+      "attrs": {
+        "price": 30,
+        "cacao_percent": "25%",
+        "cacao_origin": "非公開",
+        "calorie": "70kcal（1本当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b13",
+      "image": "chocolate/b13.jpg",
+      "name": "チョコフレーク",
+      "attrs": {
+        "price": 150,
+        "cacao_percent": "28%",
+        "cacao_origin": "非公開",
+        "calorie": "262kcal（1箱(52g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b14",
+      "image": "chocolate/b14.jpg",
+      "name": "チョコベビー",
+      "attrs": {
+        "price": 120,
+        "cacao_percent": "28%",
+        "cacao_origin": "ガーナ",
+        "calorie": "216kcal（1箱(37g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b15",
+      "image": "chocolate/b15.jpg",
+      "name": "ツインクルチョコ",
+      "attrs": {
+        "price": 120,
+        "cacao_percent": "28%",
+        "cacao_origin": "非公開",
+        "calorie": "230kcal（1箱(44g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b16",
+      "image": "chocolate/b16.jpg",
+      "name": "パックンチョ",
+      "attrs": {
+        "price": 120,
+        "cacao_percent": "28%",
+        "cacao_origin": "非公開",
+        "calorie": "234kcal（1箱(46g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b17",
+      "image": "chocolate/b17.jpg",
+      "name": "スニッカーズ",
+      "attrs": {
+        "price": 180,
+        "cacao_percent": "30%",
+        "cacao_origin": "非公開",
+        "calorie": "280kcal（1本(52g)当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b18",
+      "image": "chocolate/b18.jpg",
+      "name": "フルーツチョコ",
+      "attrs": {
+        "price": 120,
+        "cacao_percent": "25%",
+        "cacao_origin": "非公開",
+        "calorie": "220kcal（1箱当たり）",
+        "fairtrade": "無"
+      }
+    },
+    {
+      "id": "b19",
+      "image": "chocolate/b19.jpg",
+      "name": "メルティーキッス",
+      "attrs": {
+        "price": 200,
         "cacao_percent": "35%",
         "cacao_origin": "ガーナ",
-        "calorie": "395kcal（1箱(70g)当たり）",
+        "calorie": "280kcal（1箱(56g)当たり）",
         "fairtrade": "無"
       }
     },
     {
-      "id": 17,
-      "image": "chocolate/17.jpg",
-      "name": "ラミー",
+      "id": "b20",
+      "image": "chocolate/b20.jpg",
+      "name": "麦チョコ",
       "attrs": {
-        "price": 220,
-        "cacao_percent": "40%",
+        "price": 150,
+        "cacao_percent": "28%",
         "cacao_origin": "非公開",
-        "calorie": "277kcal（1箱(60g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 18,
-      "image": "chocolate/18.jpg",
-      "name": "小枝",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
-        "calorie": "299kcal（1箱(57g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 19,
-      "image": "chocolate/19.jpg",
-      "name": "明治ミルクチョコレート",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "40%",
-        "cacao_origin": "ガーナ",
-        "calorie": "279kcal（1枚(50g)当たり）",
-        "fairtrade": "無"
-      }
-    },
-    {
-      "id": 20,
-      "image": "chocolate/20.jpg",
-      "name": "紗々(SASA) メッシュチョコレート",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "45%",
-        "cacao_origin": "非公開",
-        "calorie": "200kcal（1箱(33g)当たり）",
-        "fairtrade": "有"
-      }
-    },
-    {
-      "id": 21,
-      "image": "chocolate/21.jpg",
-      "name": "明治 ブラックチョコレート",
-      "attrs": {
-        "price": 210,
-        "cacao_percent": "55%",
-        "cacao_origin": "ガーナ+西アフリカ",
-        "calorie": "299kcal（1箱(50g)当たり）",
+        "calorie": "250kcal（1袋(50g)当たり）",
         "fairtrade": "無"
       }
     }
