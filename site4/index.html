@@ -92,6 +92,13 @@
     border:2px solid var(--base-badge);
     background:#fdf7ec;
   }
+  .card.just-chosen{
+    border:2px solid var(--accent);
+    background:var(--accent-soft);
+  }
+  .badge-chosen{
+    background:var(--accent);
+  }
   .badge{
     display:inline-block;
     font-size:8px;
@@ -467,9 +474,9 @@
       anchor = presented[Math.floor(Math.random() * presented.length)];
       sourceItem = anchor;
     } else {
-      // 1回目「乗り換え」→ その乗り換え先（元の21商品の1つ）の値を、新候補に適用する
+      // 1回目「乗り換え」→ その財自身を、新候補の一番左上に固定して実際に表示する
       sourceItem = products.find(function(p){ return p.id === round1Rec.chosenId; });
-      presented = sampleN(pool2, size);
+      presented = [sourceItem].concat(sampleN(pool2, size - 1)); // sourceItemを先頭固定（=左上表示）
     }
 
     const commonCount = COMMON_COUNT[size];
@@ -478,7 +485,8 @@
       const restForCommon = presented.filter(function(p){ return p.id !== anchor.id; });
       commonSet = new Set([anchor.id].concat(sampleN(restForCommon, commonCount - 1).map(function(p){ return p.id; })));
     } else {
-      commonSet = new Set(sampleN(presented, commonCount).map(function(p){ return p.id; }));
+      const restForCommon = presented.filter(function(p){ return p.id !== sourceItem.id; });
+      commonSet = new Set([sourceItem.id].concat(sampleN(restForCommon, commonCount - 1).map(function(p){ return p.id; })));
     }
 
     const overrideFields = hasImage ? [otherItem] : [item1, item2];
@@ -502,25 +510,26 @@
 
     presented.forEach(function(p){
       const isCommon = commonSet.has(p.id);
-      const isAnchorItself = isKept && (p.id === anchor.id);
+      const isSourceItself = (isKept && p.id === anchor.id) || (!isKept && p.id === sourceItem.id);
+      const isJustChosen = (!isKept && p.id === sourceItem.id);
       let hideImage = false;
       let overrides = null;
 
       if(hasImage){
         hideImage = !isCommon; // アンカー(または似せた財)のみ画像表示
-        if(isCommon && !isAnchorItself && otherItem){
+        if(isCommon && !isSourceItself && otherItem){
           overrides = {};
           overrides[otherItem] = attrValue(sourceItem, otherItem);
         }
       } else {
-        if(isCommon && !isAnchorItself){
+        if(isCommon && !isSourceItself){
           overrides = {};
           overrides[item1] = attrValue(sourceItem, item1);
           overrides[item2] = attrValue(sourceItem, item2);
         }
       }
 
-      grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides }));
+      grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides, isJustChosen:isJustChosen }));
     });
 
     const clickable = Array.from(basePanel.children).concat(Array.from(grid.children));
@@ -556,12 +565,14 @@
 
   function buildCard(product, opts){
     const el = document.createElement('div');
-    el.className = 'card' + (opts.isBase ? ' base' : '');
+    el.className = 'card' + (opts.isBase ? ' base' : '') + (opts.isJustChosen ? ' just-chosen' : '');
     el.dataset.id = product.id;
 
     let inner = '';
     if(opts.isBase){
       inner += '<span class="badge">今回の基準の商品</span>';
+    } else if(opts.isJustChosen){
+      inner += '<span class="badge badge-chosen">先ほど選んだ財</span>';
     }
 
     if(opts.hideImage){
