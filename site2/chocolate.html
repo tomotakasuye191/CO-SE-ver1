@@ -366,27 +366,6 @@
     </div>
   </section>
 
-  <!-- ============ 画面2: 属性情報 ============ -->
-  <section id="screen-demo" class="screen">
-    <div class="card">
-      <h2>はじめに、あなたについて教えてください</h2>
-
-      <div class="field">
-        <label class="q">東京理科大学に所属していますか？</label>
-        <div class="radio-group" data-group="affiliation">
-          <div class="radio-pill" data-value="はい">はい</div>
-          <div class="radio-pill" data-value="いいえ">いいえ</div>
-        </div>
-      </div>
-
-      <p style="font-size:13px; color:#6b7a70; margin:4px 0 0;">
-        学籍番号・性別・年齢は最初の登録画面で取得済みのため、ここでは質問しません。
-      </p>
-
-      <button class="btn" id="btn-to-conjoint">次へ</button>
-    </div>
-  </section>
-
   <!-- ============ 画面3: コンジョイント9セット ============ -->
   <section id="screen-conjoint" class="screen">
     <div class="progress-label" id="progress-label">セット 1 / 17</div>
@@ -692,7 +671,6 @@ for (let i = 1; i <= 21; i++) {
 }
 
 const state = {
-  affiliation: null,
   studentId: "",
   gender: null,
   age: "",
@@ -709,28 +687,6 @@ function showScreen(id) {
 
 /* --- 画面1: 開始 --- */
 document.getElementById('btn-start').addEventListener('click', () => {
-  showScreen('screen-demo');
-});
-
-/* --- 画面2: 属性情報（ピル選択） --- */
-document.querySelectorAll('.radio-group').forEach(group => {
-  const key = group.dataset.group;
-  group.querySelectorAll('.radio-pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-      group.querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
-      pill.classList.add('selected');
-      state[key] = pill.dataset.value;
-      // 学籍番号・性別・年齢は最初の登録画面で取得済みのため、ここでは何もしない
-    });
-  });
-});
-
-document.getElementById('btn-to-conjoint').addEventListener('click', () => {
-  if (!state.affiliation) {
-    alert('東京理科大学への所属の有無を選択してください。');
-    return;
-  }
-
   state.currentSet = 0;
   renderConjointSet();
   showScreen('screen-conjoint');
@@ -841,7 +797,6 @@ function sendToSheet(typeResult) {
     action: 'submitConjoint',
     id: SYS.id,
     good: GOOD_CODE,
-    affiliation: state.affiliation,
     gender: SYS.gender,
     age: SYS.age,
     choices: choiceLetters,
