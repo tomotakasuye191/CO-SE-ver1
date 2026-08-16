@@ -384,13 +384,9 @@
   <!-- ============ 画面6: 結果 ============ -->
   <section id="screen-result" class="screen">
     <div class="card">
-      <h2 style="text-align:center;">あなたのヨーグルト選びタイプは…</h2>
-      <div class="result-type" id="result-type-name">―</div>
-      <div class="result-badges" id="result-badges"></div>
+      <h2 style="text-align:center;">ご回答ありがとうございました</h2>
       <p class="muted" id="submit-status" style="text-align:center;">回答を記録しています…</p>
       <button class="btn secondary" id="btn-retry-submit" style="display:none;">回答をもう一度記録する</button>
-      <button class="btn" id="btn-next-experiment" style="margin-top:14px; display:none;">次の実験に進む</button>
-      <p class="muted" id="redirect-note" style="text-align:center; display:none;">この先の実験のご案内は、担当者からお伝えします。</p>
     </div>
     <footer class="note">回答データは研究目的にのみ使用されます。</footer>
   </section>
@@ -755,26 +751,15 @@ document.getElementById('btn-next-set').addEventListener('click', () => {
 
 /* --- 結果表示 → バックグラウンドで送信 --- */
 function submitAnswers() {
-  // タイプ診断結果を計算し、送信を待たずに先に表示する
+  // 診断結果は被験者には見せない（記録のみ）。送信画面に切り替えて、そのまま裏で送信する。
   const typeResult = calculateType(state.answers);
   state.lastTypeResult = typeResult;
-  showResult(typeResult);
-  sendToSheet(typeResult);
-}
 
-function showResult(typeResult) {
-  document.getElementById('result-type-name').textContent = typeResult.typeName;
-  const badges = document.getElementById('result-badges');
-  badges.innerHTML = `
-    <span class="badge">1位：${typeResult.top1Label}</span>
-    <span class="badge">2位：${typeResult.top2Label}</span>
-  `;
   document.getElementById('submit-status').textContent = '回答を記録しています…';
   document.getElementById('btn-retry-submit').style.display = 'none';
-  document.getElementById('btn-next-experiment').style.display = 'none';
-  document.getElementById('redirect-note').style.display = 'none';
-
   showScreen('screen-result');
+
+  sendToSheet(typeResult);
 }
 
 function sendToSheet(typeResult) {
@@ -831,11 +816,9 @@ function sendToSheet(typeResult) {
   Promise.all([post(conjointPayload), post(importancePayload)])
     .then(([r1, r2]) => {
       if (r1.status === 'ok' && r2.status === 'ok') {
-        document.getElementById('submit-status').textContent = '回答の記録が完了しました。';
+        document.getElementById('submit-status').textContent = '記録が完了しました。実験画面に移動します…';
         document.getElementById('btn-retry-submit').style.display = 'none';
-        const nextBtn = document.getElementById('btn-next-experiment');
-        nextBtn.style.display = 'block';
-        nextBtn.onclick = () => { window.location.href = buildRedirectUrl(typeResult); };
+        window.location.href = buildRedirectUrl(typeResult);
       } else {
         showSubmitError();
       }
