@@ -166,7 +166,6 @@
   // ▼ サイト2のURL（同一リポジトリ内のパスに合わせて調整してください）
   // ▼ リポジトリの絶対URL（全ページ遷移をこれ基準にすることで相対パスの事故を防ぐ）
   const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
-  const SITE2_URL = BASE_URL + "site2/index.html";
 
   const form = document.getElementById('entryForm');
   const submitBtn = document.getElementById('submitBtn');
@@ -212,7 +211,8 @@
         const query = new URLSearchParams({
           id: data.id, group: data.group, good1: data.good1, good2: data.good2, current: '1'
         });
-        window.location.href = SITE2_URL + '?' + query.toString();
+        // 1財目（good1）を担当する、本番コンジョイントツールへ遷移する
+        window.location.href = BASE_URL + 'site2/' + data.good1 + '.html?' + query.toString();
 
       }).catch(function(){
         if(!isAutoRetry){
