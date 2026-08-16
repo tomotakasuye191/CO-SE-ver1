@@ -227,7 +227,6 @@
 
   const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
   const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
-  const SITE2_URL = BASE_URL + "site2/index.html";
   const COMPLETE_URL = BASE_URL + "complete/index.html";
 
   const GOOD_LABELS = { yogurt:'ヨーグルト', rice:'お米', wine:'ワイン', chocolate:'チョコレート' };
@@ -682,7 +681,8 @@
   function goToNext(){
     if(current === '1'){
       const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:'2' });
-      window.location.href = SITE2_URL + '?' + query.toString();
+      // 2財目（good2）を担当する、本番コンジョイントツールへ遷移する
+      window.location.href = BASE_URL + 'site2/' + good2 + '.html?' + query.toString();
     } else {
       const query = new URLSearchParams({ id:id });
       window.location.href = COMPLETE_URL + '?' + query.toString();
