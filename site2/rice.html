@@ -379,25 +379,9 @@
         </div>
       </div>
 
-      <div class="field" id="field-studentId" style="display:none;">
-        <label class="q">学籍番号</label>
-        <input type="text" id="studentId" placeholder="例：1234567">
-      </div>
-
-      <div class="field">
-        <label class="q">性別</label>
-        <div class="radio-group" data-group="gender">
-          <div class="radio-pill" data-value="男性">男性</div>
-          <div class="radio-pill" data-value="女性">女性</div>
-          <div class="radio-pill" data-value="その他">その他</div>
-          <div class="radio-pill" data-value="回答しない">回答しない</div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="q">年齢</label>
-        <input type="number" id="age" min="10" max="100" placeholder="例：21">
-      </div>
+      <p style="font-size:13px; color:#6b7a70; margin:4px 0 0;">
+        学籍番号・性別・年齢は最初の登録画面で取得済みのため、ここでは質問しません。
+      </p>
 
       <button class="btn" id="btn-to-conjoint">次へ</button>
     </div>
@@ -669,7 +653,7 @@ function buildRedirectUrl(typeResult) {
   const ourKey2 = ATTR_KEY_MAP[key2];
   const params = new URLSearchParams({
     id: SYS.id, group: SYS.group, good1: SYS.good1, good2: SYS.good2, current: SYS.current,
-    good: GOOD_CODE, item1: ourKey1, item2: ourKey2
+    good: GOOD_CODE, item1: ourKey1, item2: ourKey2, gender: SYS.gender, age: SYS.age
   });
   return BASE_URL + "site4/index.html?" + params.toString();
 }
@@ -699,6 +683,8 @@ const SYS = {
   good1: SYS_PARAMS.get('good1') || '',
   good2: SYS_PARAMS.get('good2') || '',
   current: SYS_PARAMS.get('current') || '1',
+  gender: SYS_PARAMS.get('gender') || '',
+  age: SYS_PARAMS.get('age') || '',
 };
 
 // GASのコールドスタート対策：ページを開いた時点で軽く一度呼んでおく（結果は使わない）
@@ -739,34 +725,14 @@ document.querySelectorAll('.radio-group').forEach(group => {
       group.querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
       pill.classList.add('selected');
       state[key] = pill.dataset.value;
-      if (key === 'affiliation') {
-        const showExtra = pill.dataset.value === 'はい';
-        const fieldEl = document.getElementById('field-studentId');
-        fieldEl.style.display = showExtra ? 'block' : 'none';
-        if (showExtra) {
-          const inp = document.getElementById('studentId');
-          inp.value = SYS.id;
-          inp.readOnly = true;
-        }
-      }
+      // 学籍番号・性別・年齢は最初の登録画面で取得済みのため、ここでは何もしない
     });
   });
 });
 
 document.getElementById('btn-to-conjoint').addEventListener('click', () => {
-  state.studentId = document.getElementById('studentId').value.trim();
-  state.age = document.getElementById('age').value;
-
   if (!state.affiliation) {
     alert('東京理科大学への所属の有無を選択してください。');
-    return;
-  }
-  if (!state.gender) {
-    alert('性別を選択してください。');
-    return;
-  }
-  if (!state.age) {
-    alert('年齢を入力してください。');
     return;
   }
 
@@ -881,8 +847,8 @@ function sendToSheet(typeResult) {
     id: SYS.id,
     good: GOOD_CODE,
     affiliation: state.affiliation,
-    gender: state.gender,
-    age: state.age,
+    gender: SYS.gender,
+    age: SYS.age,
     choices: choiceLetters,
     attentionCheck1: attentionCheck1,
     attentionCheck2: attentionCheck2,
