@@ -92,13 +92,6 @@
     border:2px solid var(--base-badge);
     background:#fdf7ec;
   }
-  .card.just-chosen{
-    border:2px solid var(--accent);
-    background:var(--accent-soft);
-  }
-  .badge-chosen{
-    background:var(--accent);
-  }
   .badge{
     display:inline-block;
     font-size:8px;
@@ -252,6 +245,8 @@
   const good1 = getParam('good1');
   const good2 = getParam('good2');
   const current = getParam('current') || '1';
+  const gender = getParam('gender');
+  const age = getParam('age');
   const good = urlParams.get('good') || (current === '1' ? good1 : good2);
   const item1 = urlParams.get('item1');
   const item2 = urlParams.get('item2');
@@ -263,6 +258,8 @@
   sessionStorage.setItem('experiment_good1', good1);
   sessionStorage.setItem('experiment_good2', good2);
   sessionStorage.setItem('experiment_current', current);
+  sessionStorage.setItem('experiment_gender', gender);
+  sessionStorage.setItem('experiment_age', age);
 
   const app = document.getElementById('app');
 
@@ -510,7 +507,6 @@
     presented.forEach(function(p){
       const isCommon = commonSet.has(p.id);
       const isSourceItself = (isKept && p.id === anchor.id) || (!isKept && p.id === sourceItem.id);
-      const isJustChosen = (!isKept && p.id === sourceItem.id);
       let hideImage = false;
       let overrides = null;
 
@@ -528,7 +524,7 @@
         }
       }
 
-      grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides, isJustChosen:isJustChosen }));
+      grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides }));
     });
 
     const clickable = Array.from(basePanel.children).concat(Array.from(grid.children));
@@ -564,14 +560,12 @@
 
   function buildCard(product, opts){
     const el = document.createElement('div');
-    el.className = 'card' + (opts.isBase ? ' base' : '') + (opts.isJustChosen ? ' just-chosen' : '');
+    el.className = 'card' + (opts.isBase ? ' base' : '');
     el.dataset.id = product.id;
 
     let inner = '';
     if(opts.isBase){
       inner += '<span class="badge">今回の基準の商品</span>';
-    } else if(opts.isJustChosen){
-      inner += '<span class="badge badge-chosen">先ほど選んだ財</span>';
     }
 
     if(opts.hideImage){
@@ -680,7 +674,7 @@
 
   function goToNext(){
     if(current === '1'){
-      const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:'2' });
+      const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:'2', gender:gender, age:age });
       // 2財目（good2）を担当する、本番コンジョイントツールへ遷移する
       window.location.href = BASE_URL + 'site2/' + good2 + '.html?' + query.toString();
     } else {
