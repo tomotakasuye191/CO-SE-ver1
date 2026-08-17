@@ -796,6 +796,7 @@ function sendToSheet(typeResult) {
     item1: ourKey1,
     item2: ourKey2,
     typeName: typeResult.typeName,
+    ranking: typeResult.ranking, // 各属性のrange(重視度)・pct(構成比)・utils(各水準の効用値)
   };
 
   const importancePayload = {
