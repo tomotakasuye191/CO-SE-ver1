@@ -673,14 +673,10 @@
   }
 
   function goToNext(){
-    if(current === '1'){
-      const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:'2', gender:gender, age:age });
-      // 2財目（good2）を担当する、本番コンジョイントツールへ遷移する
-      window.location.href = BASE_URL + 'site2/' + good2 + '.html?' + query.toString();
-    } else {
-      const query = new URLSearchParams({ id:id });
-      window.location.href = COMPLETE_URL + '?' + query.toString();
-    }
+    // COが終わった財について、知識度アンケート（サイト5）へ遷移する。
+    // 2財目へ進むか完了ページへ行くかは、サイト5側がcurrentの値を見て判断する。
+    const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:current, gender:gender, age:age });
+    window.location.href = BASE_URL + 'site5/' + good + '.html?' + query.toString();
   }
 
   // ---- 開始 ----
