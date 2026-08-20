@@ -129,6 +129,24 @@
     border-color:var(--accent);
     background:#fff;
   }
+  .flow-steps{
+    margin:0 0 20px;
+    padding-left:22px;
+    font-size:14px;
+    line-height:1.9;
+    color:var(--ink);
+  }
+  .flow-steps li{ margin-bottom:6px; }
+  .notice-box{
+    background:#fbeae6;
+    border:1px solid #e6c3ba;
+    color:#7a3325;
+    font-size:13px;
+    line-height:1.8;
+    padding:14px 16px;
+    border-radius:2px;
+    margin-bottom:24px;
+  }
   button{
     width:100%;
     margin-top:24px;
@@ -207,7 +225,7 @@
         <input type="number" id="age" min="10" max="100" placeholder="例：21">
       </div>
 
-      <button type="submit" id="submitBtn">実験を始める</button>
+      <button type="submit" id="submitBtn">次へ</button>
 
       <div class="msg" id="msgBox"></div>
     </form>
@@ -215,6 +233,24 @@
     <div class="footer-note">
       本実験は卒業研究の一環として実施しています。回答は統計的に処理され、個人が特定される形で公開されることはありません。
     </div>
+  </div>
+
+  <div class="card" id="flowCard" style="display:none;">
+    <div class="eyebrow">実験の流れ</div>
+    <h1>これから行っていただく実験について</h1>
+
+    <ol class="flow-steps">
+      <li><b>アンケート</b>：商品を選ぶ際に何を重視するかを判定する質問にお答えいただきます。</li>
+      <li><b>商品選択の実験</b>：2種類の商品について、実際に商品を選んでいただく実験を、それぞれ2回ずつ行います。</li>
+      <li><b>最後に簡単なクイズ</b>：2種類の商品それぞれについて、知識を問う簡単なクイズにお答えいただきます。</li>
+    </ol>
+
+    <div class="notice-box">
+      <b>ご注意</b><br>
+      本実験で提示する商品は、実際に市場に出回っている商品を参考にしていますが、価格や成分などの数値は<b>必ずしも現実の値と一致するものではありません</b>。あらかじめご了承の上、ご回答ください。
+    </div>
+
+    <button type="button" id="flowNextBtn">実験を始める</button>
   </div>
 
 <script>
@@ -292,8 +328,16 @@
           id: data.id, group: data.group, good1: data.good1, good2: data.good2, current: '1',
           gender: data.gender || gender, age: data.age || age
         });
-        // 1財目（good1）を担当する、本番コンジョイントツールへ遷移する
-        window.location.href = BASE_URL + 'site2/' + data.good1 + '.html?' + query.toString();
+        // 1財目（good1）を担当する、本番コンジョイントツールへのURL（「実験を始める」ボタンを押すまでは遷移しない）
+        const nextUrl = BASE_URL + 'site2/' + data.good1 + '.html?' + query.toString();
+
+        // 登録フォームを隠し、実験の流れ説明・注意事項の画面に切り替える
+        document.querySelector('.card:not(#flowCard)').style.display = 'none';
+        const flowCard = document.getElementById('flowCard');
+        flowCard.style.display = 'block';
+        document.getElementById('flowNextBtn').onclick = function(){
+          window.location.href = nextUrl;
+        };
 
       }).catch(function(){
         if(!isAutoRetry){
