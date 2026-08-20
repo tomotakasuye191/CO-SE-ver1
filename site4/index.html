@@ -673,10 +673,15 @@
   }
 
   function goToNext(){
-    // COが終わった財について、知識度アンケート（サイト5）へ遷移する。
-    // 2財目へ進むか完了ページへ行くかは、サイト5側がcurrentの値を見て判断する。
-    const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:current, gender:gender, age:age });
-    window.location.href = BASE_URL + 'site5/' + good + '.html?' + query.toString();
+    if(current === '1'){
+      // 1財目のCOが終わった → 実験中は知識アンケードを挟まず、そのまま2財目のコンジョイントへ
+      const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, current:'2', gender:gender, age:age });
+      window.location.href = BASE_URL + 'site2/' + good2 + '.html?' + query.toString();
+    } else {
+      // 2財目のCOも終わった → ここで初めて、2財分の知識アンケードをまとめて実施する（財1から開始）
+      const query = new URLSearchParams({ id:id, group:group, good1:good1, good2:good2, gender:gender, age:age, qseq:'1' });
+      window.location.href = BASE_URL + 'site5/' + good1 + '.html?' + query.toString();
+    }
   }
 
   // ---- 開始 ----
