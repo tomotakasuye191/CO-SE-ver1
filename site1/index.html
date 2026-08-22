@@ -202,21 +202,40 @@
     <h1>購買行動に関する実験<br>参加登録</h1>
     <p class="desc">
       これから複数の画面に移動しながら、いくつかの商品についてお答えいただきます。<br>
-      まず、学生番号を入力してください。以降の画面でもこの番号があなたのIDとして使われます。
+      まず、あなたについて教えてください。
     </p>
 
     <form id="entryForm">
-      <label for="studentId">学生番号</label>
-      <input type="text" id="studentId" name="studentId" placeholder="例：24A1234B" autocomplete="off" required>
-      <div class="hint">半角英数字で入力してください。入力内容は研究目的以外には使用しません。</div>
+      <div class="field" style="margin-top:0;">
+        <label class="q">東京理科大学に所属していますか？</label>
+        <div class="radio-group" data-group="affiliation" id="affiliationGroup">
+          <div class="radio-pill" data-value="はい">はい</div>
+          <div class="radio-pill" data-value="いいえ">いいえ</div>
+        </div>
+      </div>
+
+      <div class="notice-box" id="rewardNotice" style="display:none;">
+        <b>ご注意</b><br>
+        この質問と次の入力欄は、<b>実験の報酬をお支払いするために必要な情報</b>としてお尋ねしています。それ以外の目的には使用しません。
+      </div>
+
+      <div class="field" id="field-studentId" style="display:none; margin-top:14px;">
+        <label class="q" for="studentId">学籍番号</label>
+        <input type="text" id="studentId" name="studentId" placeholder="例：24A1234B" autocomplete="off">
+        <div class="hint">半角英数字で入力してください。</div>
+      </div>
+
+      <div class="field" id="field-email" style="display:none; margin-top:14px;">
+        <label class="q" for="emailAddr">メールアドレス</label>
+        <input type="text" id="emailAddr" name="emailAddr" placeholder="例：example@rikadai.jp" autocomplete="off">
+        <div class="hint">報酬の受け取りに使用するメールアドレスをご入力ください。</div>
+      </div>
 
       <div class="field">
         <label class="q">性別</label>
         <div class="radio-group" data-group="gender" id="genderGroup">
           <div class="radio-pill" data-value="男性">男性</div>
           <div class="radio-pill" data-value="女性">女性</div>
-          <div class="radio-pill" data-value="その他">その他</div>
-          <div class="radio-pill" data-value="回答しない">回答しない</div>
         </div>
       </div>
 
@@ -265,15 +284,40 @@
   const submitBtn = document.getElementById('submitBtn');
   const msgBox = document.getElementById('msgBox');
   const idInput = document.getElementById('studentId');
+  const emailInput = document.getElementById('emailAddr');
   const ageInput = document.getElementById('age');
   const genderGroup = document.getElementById('genderGroup');
+  const affiliationGroup = document.getElementById('affiliationGroup');
+  const rewardNotice = document.getElementById('rewardNotice');
+  const fieldStudentId = document.getElementById('field-studentId');
+  const fieldEmail = document.getElementById('field-email');
   let selectedGender = '';
+  let selectedAffiliation = '';
 
   genderGroup.querySelectorAll('.radio-pill').forEach(function(pill){
     pill.addEventListener('click', function(){
       genderGroup.querySelectorAll('.radio-pill').forEach(function(p){ p.classList.remove('selected'); });
       pill.classList.add('selected');
       selectedGender = pill.dataset.value;
+    });
+  });
+
+  affiliationGroup.querySelectorAll('.radio-pill').forEach(function(pill){
+    pill.addEventListener('click', function(){
+      affiliationGroup.querySelectorAll('.radio-pill').forEach(function(p){ p.classList.remove('selected'); });
+      pill.classList.add('selected');
+      selectedAffiliation = pill.dataset.value;
+
+      rewardNotice.style.display = 'block';
+      if(selectedAffiliation === 'はい'){
+        fieldStudentId.style.display = 'block';
+        fieldEmail.style.display = 'none';
+        emailInput.value = '';
+      } else {
+        fieldEmail.style.display = 'block';
+        fieldStudentId.style.display = 'none';
+        idInput.value = '';
+      }
     });
   });
 
@@ -284,9 +328,25 @@
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    const id = idInput.value.trim();
+
+    if(!selectedAffiliation){
+      showMessage('東京理科大学への所属の有無を選択してください。', 'error');
+      return;
+    }
+
+    const idType = (selectedAffiliation === 'はい') ? 'studentId' : 'email';
+    const id = (idType === 'studentId') ? idInput.value.trim() : emailInput.value.trim();
+
+    if(!id){
+      showMessage(idType === 'studentId' ? '学籍番号を入力してください。' : 'メールアドレスを入力してください。', 'error');
+      return;
+    }
+    if(idType === 'email' && id.indexOf('@') === -1){
+      showMessage('正しいメールアドレスを入力してください。', 'error');
+      return;
+    }
+
     const age = ageInput.value.trim();
-    if(!id){ return; }
     if(!selectedGender){
       showMessage('性別を選択してください。', 'error');
       return;
@@ -298,15 +358,15 @@
 
     submitBtn.disabled = true;
     showMessage('登録しています…', 'loading');
-    registerId(id, selectedGender, age, false);
+    registerId(id, selectedGender, age, selectedAffiliation, idType, false);
   });
 
-  function registerId(id, gender, age, isAutoRetry){
+  function registerId(id, gender, age, affiliation, idType, isAutoRetry){
     fetch(GAS_URL, {
       method: 'POST',
       // text/plain にすることでプリフライトを回避し、GAS側のCORS制約を避ける
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'register', id: id, gender: gender, age: age })
+      body: JSON.stringify({ action: 'register', id: id, gender: gender, age: age, affiliation: affiliation, idType: idType })
     }).then(function(res){ return res.json(); })
       .then(function(data){
         if(data.status !== 'ok'){
@@ -341,7 +401,7 @@
 
       }).catch(function(){
         if(!isAutoRetry){
-          setTimeout(function(){ registerId(id, gender, age, true); }, 800);
+          setTimeout(function(){ registerId(id, gender, age, affiliation, idType, true); }, 800);
           return;
         }
         showMessage('通信エラーが発生しました。ネットワーク環境をご確認の上、再度お試しください。', 'error');
