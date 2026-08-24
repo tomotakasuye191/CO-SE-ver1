@@ -309,7 +309,7 @@
         <ul>
           <li>回答は研究目的にのみ使用し、個人が特定される形で公開することはありません。</li>
           <li>知らない設問があっても構いません。最も近いと思うものを選んでください。</li>
-          <li>全16問（パート1:5問／パート2:11問）です。</li>
+          <li>全17問（パート1:5問＋購入頻度1問／パート2:11問）です。</li>
         </ul>
       </div>
       <button class="btn" id="btn-start">同意して回答をはじめる</button>
@@ -326,6 +326,7 @@
     <div class="card">
       <p class="muted">それぞれの文について、あなた自身にどの程度あてはまるか選んでください。</p>
       <div id="subjective-list"></div>
+      <div id="frequency-block"></div>
       <div class="hint" id="subjective-hint"></div>
       <div class="btn-row">
         <button class="btn" id="btn-to-objective">次へ</button>
@@ -429,8 +430,11 @@ const brandQuestions = [
   {q:'「オーパス・ワン」はどこの国のワイナリーですか。', opts:['アメリカ','フランス','チリ','オーストラリア'], correct:0}
 ];
 
+const purchaseFrequencyOptions = ['週に3回以上','週に1〜2回','月に2〜3回','月に1回程度','ほとんど購入しない'];
+
 const state = {
   subjective: new Array(subjectiveItems.length).fill(null),
+  purchaseFrequency: null,
   concept: new Array(conceptQuestions.length).fill(null),
   brand: new Array(brandQuestions.length).fill(null)
 };
@@ -471,10 +475,42 @@ function renderSubjectivePage(){
     });
     wrap.appendChild(block);
   });
+  renderFrequencyBlock();
+}
+
+function renderFrequencyBlock(){
+  const fwrap = document.getElementById('frequency-block');
+  fwrap.innerHTML = '';
+  const block = document.createElement('div');
+  block.className = 'q-block';
+  const num = document.createElement('div');
+  num.className = 'q-num';
+  num.textContent = '購入頻度';
+  const text = document.createElement('div');
+  text.className = 'q-text-inline';
+  text.textContent = `あなたは平均してどのくらいの頻度で${PRODUCT}を購入しますか。`;
+  const list = document.createElement('div');
+  list.className = 'options-list';
+  purchaseFrequencyOptions.forEach((label, oi)=>{
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if(state.purchaseFrequency === oi) card.classList.add('selected');
+    card.textContent = label;
+    card.addEventListener('click', ()=>{
+      state.purchaseFrequency = oi;
+      document.getElementById('subjective-hint').textContent = '';
+      renderFrequencyBlock();
+    });
+    list.appendChild(card);
+  });
+  block.appendChild(num);
+  block.appendChild(text);
+  block.appendChild(list);
+  fwrap.appendChild(block);
 }
 
 document.getElementById('btn-to-objective').addEventListener('click', ()=>{
-  if(state.subjective.some(v=>v===null)){
+  if(state.subjective.some(v=>v===null) || state.purchaseFrequency === null){
     document.getElementById('subjective-hint').textContent = 'すべての項目に回答してください。';
     return;
   }
@@ -558,6 +594,8 @@ function buildRecord(){
     timestamp: new Date().toISOString(),
     subjective_raw: state.subjective.slice(),
     subjective_avg: Number(subjAvg.toFixed(2)),
+    purchase_frequency_index: state.purchaseFrequency,
+    purchase_frequency_label: purchaseFrequencyOptions[state.purchaseFrequency],
     concept_answers: state.concept.slice(),
     concept_correct: conceptCorrect,
     concept_score: conceptCorrect.reduce((a,b)=>a+b,0),
@@ -584,6 +622,8 @@ function sendToGAS(record, isAutoRetry){
     id: SYS.id,
     good: GOOD_CODE,
     subjectiveAvg: record.subjective_avg,
+    purchaseFrequencyIndex: record.purchase_frequency_index,
+    purchaseFrequencyLabel: record.purchase_frequency_label,
     conceptScore: record.concept_score,
     conceptTotal: record.concept_total,
     brandScore: record.brand_score,
