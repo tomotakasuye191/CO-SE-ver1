@@ -309,7 +309,7 @@
         <ul>
           <li>回答は研究目的にのみ使用し、個人が特定される形で公開することはありません。</li>
           <li>知らない設問があっても構いません。最も近いと思うものを選んでください。</li>
-          <li>全16問（パート1:5問／パート2:11問）です。</li>
+          <li>全17問（パート1:5問＋購入頻度1問／パート2:11問）です。</li>
         </ul>
       </div>
       <button class="btn" id="btn-start">同意して回答をはじめる</button>
@@ -326,6 +326,7 @@
     <div class="card">
       <p class="muted">それぞれの文について、あなた自身にどの程度あてはまるか選んでください。</p>
       <div id="subjective-list"></div>
+      <div id="frequency-block"></div>
       <div class="hint" id="subjective-hint"></div>
       <div class="btn-row">
         <button class="btn" id="btn-to-objective">次へ</button>
@@ -415,22 +416,25 @@ const subjectiveItems = [
 const conceptQuestions = [
   {q:'ビフィズス菌の説明として正しいものはどれですか。', opts:['主に小腸で増殖する菌である','酸素があると活発に増殖する菌である','主に大腸に生息する嫌気性（酸素を嫌う）の菌である','加熱しても死滅しない菌である'], correct:2},
   {q:'「プロバイオティクス」の意味として最も適切なものはどれですか。', opts:['人体に有益な働きをする生きた微生物','乳製品に含まれる食物繊維の一種','発酵を促進する酵素','保存料として使われる添加物'], correct:0},
-  {q:'ヨーグルトの健康効果として一般的に広く知られているものはどれですか。', opts:['血糖値を直接下げる薬理作用','腸内環境を整える効果','骨密度を数値で測定する効果','貧血を完全に予防する効果'], correct:1},
+  {q:'ヨーグルトの栄養面の特徴として正しいものはどれですか。', opts:['乳製品の中でも特にビタミンCが豊富である','牛乳と同様、カルシウムを豊富に含む','脂質を全く含まない食品である','主な栄養素は食物繊維である'], correct:1},
   {q:'開封後のヨーグルトの一般的な取り扱いとして適切なものはどれですか。', opts:['常温で保存すれば数週間品質が保たれる','冷蔵保存し、できるだけ早く食べきる','冷凍保存すると風味が向上する','保存方法は品質に影響しない'], correct:1},
-  {q:'「低脂肪」ヨーグルトと「無脂肪」ヨーグルトの違いとして正しいものはどれですか。', opts:['無脂肪の方が脂肪分は多い','低脂肪は乳脂肪をやや抑えたもの、無脂肪はほぼ含まないものを指す','両者に違いはなく、呼び方が違うだけである','無脂肪は必ずカロリーもゼロである'], correct:1}
+  {q:'「成分無調整」と表示されたヨーグルトの説明として正しいものはどれですか。', opts:['生乳に含まれる脂肪分などを調整せずに作られたヨーグルトである','添加物を一切使用していないヨーグルトである','賞味期限を延長する加工がされていないヨーグルトである','乳酸菌を添加していないヨーグルトである'], correct:0}
 ];
 
 const brandQuestions = [
-  {q:'「明治ブルガリアヨーグルト」を製造しているメーカーはどこですか。', opts:['明治','森永乳業','雪印メグミルク','江崎グリコ'], correct:0},
+  {q:'「LG21」を製造しているメーカーはどこですか。', opts:['明治','森永乳業','雪印メグミルク','江崎グリコ'], correct:0},
   {q:'「ダノン」はどこの国発祥のメーカーですか。', opts:['アメリカ','フランス','ドイツ','イギリス'], correct:1},
   {q:'「ビヒダスヨーグルト」を製造しているメーカーはどこですか。', opts:['森永乳業','明治','雪印メグミルク','江崎グリコ'], correct:0},
   {q:'「オイコス」はどこのメーカーの商品ですか。', opts:['ダノン','江崎グリコ','森永乳業','雪印メグミルク'], correct:0},
   {q:'「パルテノ」はどこのメーカーの商品ですか。', opts:['森永乳業','雪印メグミルク','明治','江崎グリコ'], correct:0},
-  {q:'ギリシャヨーグルトブランド「Fage（ファージ）」はどこの国発祥のメーカーですか。', opts:['ギリシャ','トルコ','イタリア','キプロス'], correct:0}
+  {q:'「Fage（ファージ）」はどこの国発祥のメーカーですか。', opts:['ギリシャ','トルコ','イタリア','キプロス'], correct:0}
 ];
+
+const purchaseFrequencyOptions = ['週に3回以上','週に1〜2回','月に2〜3回','月に1回程度','ほとんど購入しない'];
 
 const state = {
   subjective: new Array(subjectiveItems.length).fill(null),
+  purchaseFrequency: null,
   concept: new Array(conceptQuestions.length).fill(null),
   brand: new Array(brandQuestions.length).fill(null)
 };
@@ -471,10 +475,42 @@ function renderSubjectivePage(){
     });
     wrap.appendChild(block);
   });
+  renderFrequencyBlock();
+}
+
+function renderFrequencyBlock(){
+  const fwrap = document.getElementById('frequency-block');
+  fwrap.innerHTML = '';
+  const block = document.createElement('div');
+  block.className = 'q-block';
+  const num = document.createElement('div');
+  num.className = 'q-num';
+  num.textContent = '購入頻度';
+  const text = document.createElement('div');
+  text.className = 'q-text-inline';
+  text.textContent = `あなたは平均してどのくらいの頻度で${PRODUCT}を購入しますか。`;
+  const list = document.createElement('div');
+  list.className = 'options-list';
+  purchaseFrequencyOptions.forEach((label, oi)=>{
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    if(state.purchaseFrequency === oi) card.classList.add('selected');
+    card.textContent = label;
+    card.addEventListener('click', ()=>{
+      state.purchaseFrequency = oi;
+      document.getElementById('subjective-hint').textContent = '';
+      renderFrequencyBlock();
+    });
+    list.appendChild(card);
+  });
+  block.appendChild(num);
+  block.appendChild(text);
+  block.appendChild(list);
+  fwrap.appendChild(block);
 }
 
 document.getElementById('btn-to-objective').addEventListener('click', ()=>{
-  if(state.subjective.some(v=>v===null)){
+  if(state.subjective.some(v=>v===null) || state.purchaseFrequency === null){
     document.getElementById('subjective-hint').textContent = 'すべての項目に回答してください。';
     return;
   }
@@ -558,6 +594,8 @@ function buildRecord(){
     timestamp: new Date().toISOString(),
     subjective_raw: state.subjective.slice(),
     subjective_avg: Number(subjAvg.toFixed(2)),
+    purchase_frequency_index: state.purchaseFrequency,
+    purchase_frequency_label: purchaseFrequencyOptions[state.purchaseFrequency],
     concept_answers: state.concept.slice(),
     concept_correct: conceptCorrect,
     concept_score: conceptCorrect.reduce((a,b)=>a+b,0),
@@ -584,6 +622,8 @@ function sendToGAS(record, isAutoRetry){
     id: SYS.id,
     good: GOOD_CODE,
     subjectiveAvg: record.subjective_avg,
+    purchaseFrequencyIndex: record.purchase_frequency_index,
+    purchaseFrequencyLabel: record.purchase_frequency_label,
     conceptScore: record.concept_score,
     conceptTotal: record.concept_total,
     brandScore: record.brand_score,
