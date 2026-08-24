@@ -315,24 +315,28 @@
 
   // ---- 状態 ----
   let baseItem = null;          // 最初(intro)で選んだ財
+  let introPool = [];           // イントロで表示した10財（この10財はCO1回目の候補には出さない）
+  let round1Pool = [];          // CO1回目で候補を出す母集団（全財からintroPoolを除いたもの）
   let remainingSizes = [];      // ラウンド1の残りサイズ
   let round1Records = [];       // {size, presentedIds, kept, chosenId, chosenName}
   let remainingSizes2 = [];     // ラウンド2の残りサイズ
   let round2Records = [];       // {size, presentedIds, commonIds, overrideFields, kept, chosenId, chosenName}
   let phase = 'intro';          // 'intro' | 'round1' | 'round2'
 
+  const INTRO_SAMPLE_SIZE = 10;
   const TOTAL_STEPS = 1 + SIZES.length * 2; // イントロ1 + ラウンド1(4) + ラウンド2(4) = 9
 
   // ============================================================
-  // フェーズ0：全商品から基準財を選ぶ
+  // フェーズ0：全商品からランダムに10財を抽出し、その中から基準財を選ぶ
   // ============================================================
   function renderIntro(){
-    const order = shuffle(products);
+    introPool = sampleN(products, Math.min(INTRO_SAMPLE_SIZE, products.length));
+    const order = shuffle(introPool);
     let html = '';
     html += '<div class="top"><span class="eyebrow">SITE 4 / ' + goodLabel + '</span>' +
             '<span class="progress">STEP 1 / ' + TOTAL_STEPS + '</span></div>';
     html += '<h1>' + goodLabel + 'の中で、いちばん好きなもの・身近なものを1つ選んでください</h1>';
-    html += '<p class="desc">下の' + products.length + '個の中からクリックして選んでください。この後の画面で、この商品を基準に選択が続きます。</p>';
+    html += '<p class="desc">下の' + order.length + '個の中からクリックして選んでください。この後の画面で、この商品を基準に選択が続きます。</p>';
     html += '<div class="grid" id="introGrid"></div>';
     app.innerHTML = html;
 
@@ -341,6 +345,9 @@
       const card = buildCard(p, { isBase:false, hideImage:false, overrides:null });
       card.addEventListener('click', function(){
         baseItem = p;
+        // CO1回目の候補母集団：イントロで見せた10財を除いた残り全部
+        const introIds = new Set(introPool.map(function(ip){ return ip.id; }));
+        round1Pool = products.filter(function(pr){ return !introIds.has(pr.id); });
         phase = 'round1';
         remainingSizes = shuffle(SIZES);
         nextRound1Slide();
@@ -398,7 +405,7 @@
   }
 
   function renderRound1Slide(size){
-    const pool = products.filter(function(p){ return p.id !== baseItem.id; });
+    const pool = round1Pool;
     const presented = sampleN(pool, size);
 
     let html = '';
