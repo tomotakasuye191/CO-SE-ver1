@@ -396,23 +396,23 @@
 <script>
 /* =========================================================================
    1. コンジョイント設計データ（51プロファイル・17選択セット×3択）
-   価格・カカオ量・カカオ産地・カロリー（各3水準）＋フェアトレード（2水準）の
+   価格・カカオ量・特性・カロリー（各3水準）＋フェアトレード（2水準）の
    5属性による混合水準の直交計画。方向性が明確な属性が価格のみのため、
    アテンションチェックは設けず、17セットすべてを推定データとして使用する。
    ※ このデータ自体は毎回固定（全員共通の質問セット）です。
    ========================================================================= */
 
 // 属性の並び順（内部キー）。以降のデータ配列はすべてこの順で並んでいる。
-const ATTRS = ['price', 'cacao', 'origin', 'cal', 'fairtrade'];
+const ATTRS = ['price', 'cacao', 'trait', 'cal', 'fairtrade'];
 
-// 各属性の水準数（価格・カカオ量・産地・カロリーは3水準、フェアトレードは2水準）
-const ATTR_LEVELS = { price: 3, cacao: 3, origin: 3, cal: 3, fairtrade: 2 };
+// 各属性の水準数（価格・カカオ量・特性・カロリーは3水準、フェアトレードは2水準）
+const ATTR_LEVELS = { price: 3, cacao: 3, trait: 3, cal: 3, fairtrade: 2 };
 
 // 各属性の水準ラベル（表示用）
 const LEVEL_LABELS = {
   price:      ["100円", "200円", "300円"],
   cacao:      ["30%", "50%", "70%"],
-  origin:     ["ガーナ産", "エクアドル産", "西アフリカ産"],
+  trait:      ["集中力が上がる", "睡眠を助ける", "効果なし"],
   cal:        ["150kcal", "250kcal", "350kcal"],
   fairtrade:  ["なし", "あり"],
 };
@@ -570,25 +570,25 @@ function computeImportance(beta) {
 const ATTRIBUTE_LABELS = {
   price:      '価格',
   cacao:      'カカオ量',
-  origin:     'カカオ産地',
+  trait:      '特性',
   cal:        'カロリー',
   fairtrade:  'フェアトレード',
 };
 
 // 重視度が同点だった場合のタイブレーク優先順位（先頭ほど優先度が高い）
-const ATTRIBUTE_PRIORITY = ['price', 'cacao', 'origin', 'cal', 'fairtrade'];
+const ATTRIBUTE_PRIORITY = ['price', 'cacao', 'trait', 'cal', 'fairtrade'];
 
 // 上位2属性の組み合わせ名（5C2=10通り）。キーは ATTRIBUTE_PRIORITY 順で正規化した「属性1+属性2」。
 const TYPE_NAMES_15 = {
   'price+cacao':      'コスパ濃厚派タイプ',
-  'price+origin':     '産地こだわり節約タイプ',
+  'price+trait':      'コスパ機能性重視タイプ',
   'price+cal':        'ヘルシー節約タイプ',
   'price+fairtrade':  'エシカル節約タイプ',
-  'cacao+origin':     'カカオ通タイプ',
+  'cacao+trait':      '濃厚機能性タイプ',
   'cacao+cal':        '濃厚ヘルシー派タイプ',
   'cacao+fairtrade':  'こだわりカカオ派タイプ',
-  'origin+cal':       '産地・カロリー両立タイプ',
-  'origin+fairtrade': 'エシカル産地重視タイプ',
+  'trait+cal':        '機能性・ヘルシー両立タイプ',
+  'trait+fairtrade':  'エシカル機能性重視タイプ',
   'cal+fairtrade':    'ヘルシー&エシカルタイプ',
 };
 
@@ -643,7 +643,7 @@ const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
 const GOOD_CODE = "chocolate"; // このツール自体が担当する財の内部コード
 
 // このツールの属性キー ⇔ サイト4側の属性キーの対応表
-const ATTR_KEY_MAP = {"price": "price", "cacao": "cacao_percent", "origin": "cacao_origin", "cal": "calorie", "fairtrade": "fairtrade"};
+const ATTR_KEY_MAP = {"price": "price", "cacao": "cacao_percent", "trait": "trait", "cal": "calorie", "fairtrade": "fairtrade"};
 
 // URLパラメータから、サイト1/サイト4から引き継いだ情報を読み取る
 const SYS_PARAMS = new URLSearchParams(window.location.search);
