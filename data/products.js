@@ -1142,7 +1142,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "226kcal（1袋(51g)当たり）",
         "fairtrade": "無"
       }
@@ -1154,7 +1154,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
+        "trait": "効果なし",
         "calorie": "359kcal（1箱(74g)当たり）",
         "fairtrade": "無"
       }
@@ -1166,7 +1166,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "339kcal（1箱(70g)当たり）",
         "fairtrade": "無"
       }
@@ -1178,7 +1178,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "283kcal（1箱(58g)当たり）",
         "fairtrade": "無"
       }
@@ -1190,7 +1190,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "30%",
-        "cacao_origin": "西アフリカ(ガーナ他)",
+        "trait": "効果なし",
         "calorie": "314kcal（1袋(58g)当たり）",
         "fairtrade": "無"
       }
@@ -1202,7 +1202,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "32%",
-        "cacao_origin": "非公開(西アフリカ系)",
+        "trait": "効果なし",
         "calorie": "238kcal（1袋(6枚)当たり）",
         "fairtrade": "無"
       }
@@ -1214,7 +1214,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
+        "trait": "集中力が上がる",
         "calorie": "339kcal（1箱(74g)当たり）",
         "fairtrade": "無"
       }
@@ -1226,7 +1226,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "35%",
-        "cacao_origin": "ガーナ",
+        "trait": "集中力が上がる",
         "calorie": "280kcal（1枚(50g)当たり）",
         "fairtrade": "有"
       }
@@ -1238,7 +1238,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "非公表（ホワイトチョコのため該当なし）",
-        "cacao_origin": "ガーナ(カカオバター使用)",
+        "trait": "睡眠を助ける",
         "calorie": "294kcal（1枚(50g)当たり）",
         "fairtrade": "有"
       }
@@ -1250,7 +1250,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "30%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "107kcal（ミニ1本当たり）",
         "fairtrade": "有"
       }
@@ -1262,7 +1262,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 200,
         "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "157kcal（1箱(28g)当たり）",
         "fairtrade": "無"
       }
@@ -1274,7 +1274,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "72%",
-        "cacao_origin": "西アフリカ",
+        "trait": "集中力が上がる",
         "calorie": "290kcal（1箱5枚(50g)当たり）",
         "fairtrade": "有"
       }
@@ -1286,7 +1286,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "30%",
-        "cacao_origin": "非公開",
+        "trait": "効果なし",
         "calorie": "33kcal（1個当たり(平均)）",
         "fairtrade": "無"
       }
@@ -1298,7 +1298,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "32%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "339kcal（1箱(52g)当たり）",
         "fairtrade": "無"
       }
@@ -1310,7 +1310,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 200,
         "cacao_percent": "32%",
-        "cacao_origin": "非公開",
+        "trait": "効果なし",
         "calorie": "180kcal（1本(33g)当たり）",
         "fairtrade": "無"
       }
@@ -1322,7 +1322,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 250,
         "cacao_percent": "35%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "395kcal（1箱(70g)当たり）",
         "fairtrade": "無"
       }
@@ -1334,7 +1334,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 220,
         "cacao_percent": "40%",
-        "cacao_origin": "非公開",
+        "trait": "効果なし",
         "calorie": "277kcal（1箱(60g)当たり）",
         "fairtrade": "無"
       }
@@ -1346,7 +1346,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
+        "trait": "集中力が上がる",
         "calorie": "299kcal（1箱(57g)当たり）",
         "fairtrade": "無"
       }
@@ -1358,7 +1358,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "40%",
-        "cacao_origin": "ガーナ",
+        "trait": "睡眠を助ける",
         "calorie": "279kcal（1枚(50g)当たり）",
         "fairtrade": "無"
       }
@@ -1370,7 +1370,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "45%",
-        "cacao_origin": "非公開",
+        "trait": "集中力が上がる",
         "calorie": "200kcal（1箱(33g)当たり）",
         "fairtrade": "有"
       }
@@ -1382,7 +1382,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 210,
         "cacao_percent": "55%",
-        "cacao_origin": "ガーナ+西アフリカ",
+        "trait": "効果なし",
         "calorie": "299kcal（1箱(50g)当たり）",
         "fairtrade": "無"
       }
@@ -1394,7 +1394,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 288,
         "cacao_percent": "34%",
-        "cacao_origin": "ガーナ",
+        "trait": "効果なし",
         "calorie": "290kcal（1袋(50g)当たり）",
         "fairtrade": "無"
       }
@@ -1406,7 +1406,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 128,
         "cacao_percent": "28%",
-        "cacao_origin": "非公開",
+        "trait": "集中力が上がる",
         "calorie": "230kcal（1袋当たり）",
         "fairtrade": "無"
       }
@@ -1418,7 +1418,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 33,
         "cacao_percent": "28%",
-        "cacao_origin": "非公開",
+        "trait": "効果なし",
         "calorie": "50kcal（1袋当たり）",
         "fairtrade": "無"
       }
@@ -1430,7 +1430,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 151,
         "cacao_percent": "25%",
-        "cacao_origin": "非公開",
+        "trait": "集中力が上がる",
         "calorie": "40kcal（1本当たり）",
         "fairtrade": "無"
       }
@@ -1442,7 +1442,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 20,
         "cacao_percent": "30%",
-        "cacao_origin": "非公開",
+        "trait": "睡眠を助ける",
         "calorie": "46kcal（1個当たり）",
         "fairtrade": "無"
       }
@@ -1454,7 +1454,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 170,
         "cacao_percent": "35%",
-        "cacao_origin": "ガーナ",
+        "trait": "効果なし",
         "calorie": "350kcal（1箱(70g)当たり）",
         "fairtrade": "無"
       }
@@ -1466,7 +1466,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 288,
         "cacao_percent": "32%",
-        "cacao_origin": "非公開",
+        "trait": "集中力が上がる",
         "calorie": "300kcal（1袋(50g)当たり）",
         "fairtrade": "無"
       }
@@ -1478,7 +1478,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 388,
         "cacao_percent": "35%",
-        "cacao_origin": "非公開",
+        "trait": "集中力が上がる",
         "calorie": "320kcal（1箱(60g)当たり）",
         "fairtrade": "無"
       }
@@ -1490,7 +1490,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 398,
         "cacao_percent": "88%",
-        "cacao_origin": "西アフリカ",
+        "trait": "集中力が上がる",
         "calorie": "280kcal（1箱(48g)当たり）",
         "fairtrade": "無"
       }
@@ -1502,7 +1502,7 @@ window.PRODUCTS = {
       "attrs": {
         "price": 398,
         "cacao_percent": "35%",
-        "cacao_origin": "非公開",
+        "trait": "効果なし",
         "calorie": "330kcal（1箱当たり）",
         "fairtrade": "無"
       }
