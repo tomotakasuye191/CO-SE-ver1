@@ -627,9 +627,15 @@ function buildRedirectUrl(typeResult) {
   const [key1, key2] = typeResult.typeKey.split('+');
   const ourKey1 = ATTR_KEY_MAP[key1];
   const ourKey2 = ATTR_KEY_MAP[key2];
+  // 「合理的裁量財」計算のため、重要視2項目の水準別効用値もサイト4へ引き継ぐ
+  const rankingByAttr = {};
+  typeResult.ranking.forEach(function(r){ rankingByAttr[r.attr] = r; });
+  const u1 = rankingByAttr[key1].utils;
+  const u2 = rankingByAttr[key2].utils;
   const params = new URLSearchParams({
     id: SYS.id, group: SYS.group, good1: SYS.good1, good2: SYS.good2, current: SYS.current,
-    good: GOOD_CODE, item1: ourKey1, item2: ourKey2, gender: SYS.gender, age: SYS.age
+    good: GOOD_CODE, item1: ourKey1, item2: ourKey2, gender: SYS.gender, age: SYS.age,
+    u1: u1.join(','), u2: u2.join(',')
   });
   return BASE_URL + "site4/index.html?" + params.toString();
 }
