@@ -319,8 +319,34 @@
 
   function attrValue(product, key){ return product.attrs[key]; }
   function formatValue(key, val){
-    if(key === 'price') return '¥' + Number(val).toLocaleString();
-    if(key === 'abv') return val + '%';
+    // 上書き(overrides)された数値は元データの単位が失われているため、
+    // ここで属性ごとの単位を付け直し、かつ小数点以下は切り上げて整数にする
+    // （被験者から見て、実在財かどうかで数値の見た目に違いが出ないようにするため）。
+    if(key === 'price'){
+      return '¥' + Math.ceil(Number(val)).toLocaleString('ja-JP');
+    }
+    if(key === 'abv'){
+      return Math.ceil(Number(val)) + '%';
+    }
+    if(key === 'cacao_percent'){
+      const n = (typeof val === 'number') ? val : parseFloat(val);
+      return isNaN(n) ? val : (Math.ceil(n) + '%');
+    }
+    if(key === 'calorie'){
+      if(typeof val === 'number') return Math.ceil(val) + 'kcal';
+      return val; // 元々「○○kcal（△△あたり）」という文字列ならそのまま
+    }
+    if(key === 'volume'){
+      if(typeof val === 'number'){
+        const unit = (good === 'rice') ? 'kg' : 'g';
+        return Math.ceil(val) + unit;
+      }
+      return val;
+    }
+    if(key === 'expiry'){
+      if(typeof val === 'number') return '製造から' + Math.ceil(val) + '日';
+      return val;
+    }
     return val;
   }
 
@@ -446,11 +472,13 @@
     // 基準財カード（左固定、実データのまま）
     basePanel.appendChild(buildCard(baseItem, { isBase:true, hideImage:false, overrides:null }));
 
-    // 候補カード（合理的裁量財の枠のみ、必要なら属性値を上書き）
+    // 候補カード（合理的裁量財の枠は理想値に、基準財を上回ってしまう他の候補は弱める）
     presented.forEach(function(p){
       let overrides = null;
       if(mandatory && mandatory.overridden && p.id === mandatory.id){
         overrides = mandatory.overrides;
+      } else if(mandatory && mandatory.weakened && mandatory.weakened[p.id]){
+        overrides = mandatory.weakened[p.id];
       }
       grid.appendChild(buildCard(p, { isBase:false, hideImage:false, overrides:overrides }));
     });
@@ -526,7 +554,7 @@
     let mandatory = null;
     if(u1 && u2 && window.Round2Levels){
       const protectedIds = Array.from(commonSet);
-      mandatory = window.Round2Levels.findMandatoryItem(good, item1, item2, u1, u2, baseItem, pool2, presented, protectedIds);
+      mandatory = window.Round2Levels.findMandatoryItem(good, item1, item2, u1, u2, baseItem, pool2, presented, protectedIds, sourceItem);
       if(mandatory && mandatory.replace){
         presented[mandatory.replaceIndex] = mandatory.replaceWith;
       }
@@ -571,9 +599,13 @@
         }
       }
 
-      // 合理的裁量財の枠は、似せる財の上書きとは独立に、理想の水準へ上書きする
+      // 合理的裁量財の枠は、似せる財の上書きとは独立に、理想の水準へ上書きする。
+      // また、似せる財グループ以外でたまたま基準財を上回ってしまっている財は弱める
+      // （「基準財より好ましい財は必ず1つだけ」を保証するため）。
       if(mandatory && mandatory.overridden && p.id === mandatory.id){
         overrides = Object.assign({}, overrides, mandatory.overrides);
+      } else if(mandatory && mandatory.weakened && mandatory.weakened[p.id]){
+        overrides = Object.assign({}, overrides, mandatory.weakened[p.id]);
       }
 
       grid.appendChild(buildCard(p, { isBase:false, hideImage:hideImage, overrides:overrides }));
