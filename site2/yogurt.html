@@ -627,11 +627,10 @@ function buildRedirectUrl(typeResult) {
   const [key1, key2] = typeResult.typeKey.split('+');
   const ourKey1 = ATTR_KEY_MAP[key1];
   const ourKey2 = ATTR_KEY_MAP[key2];
-  // ラウンド2で「次点に好ましい財」を計算するため、重要視2項目の水準別効用値も
-  // サイト4へ引き継ぐ（rankingは属性ごとに{attr, utils, ...}を持つ配列）。
+  // 「合理的裁量財」計算のため、重要視2項目の水準別効用値もサイト4へ引き継ぐ
   const rankingByAttr = {};
   typeResult.ranking.forEach(function(r){ rankingByAttr[r.attr] = r; });
-  const u1 = rankingByAttr[key1].utils; // 例：ワイン価格なら[水準0,水準1,水準2]の効用
+  const u1 = rankingByAttr[key1].utils;
   const u2 = rankingByAttr[key2].utils;
   // 基準財の抽選（好ましい順にランク付けして中央順位を選ぶ）のため、
   // 全5属性の水準別効用値を、実商品の属性キー(ATTR_KEY_MAP変換後)をキーにしてまとめて渡す。
@@ -651,7 +650,7 @@ function buildRedirectUrl(typeResult) {
 /* =========================================================================
    3. 送信先設定（★Apps Scriptのデプロイ後、ここにURLを貼り付ける★）
    ========================================================================= */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkWwIWaovkOpkjEITJRvqhfH77AdRkjcBjrg8mEVwezEYGr-u9Z3wTtp57ciri9StonA/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
 
 /* =========================================================================
    4. 画面制御・状態管理
@@ -659,7 +658,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkWwIWaovkOpkjEITJR
 /* =========================================================================
    3.5 本システム（サイト1〜4）との連携設定
    ========================================================================= */
-const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver2/";
+const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
 const GOOD_CODE = "yogurt"; // このツール自体が担当する財の内部コード
 
 // このツールの属性キー ⇔ サイト4側の属性キーの対応表
