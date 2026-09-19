@@ -396,7 +396,7 @@
 <script>
 /* =========================================================================
    1. コンジョイント設計データ（51プロファイル・17選択セット×3択）
-   価格・カカオ量・特定の効果の有無・カロリー（各3水準）＋フェアトレード（2水準）の
+   価格・カカオ量・特性・カロリー（各3水準）＋フェアトレード（2水準）の
    5属性による混合水準の直交計画。方向性が明確な属性が価格のみのため、
    アテンションチェックは設けず、17セットすべてを推定データとして使用する。
    ※ このデータ自体は毎回固定（全員共通の質問セット）です。
@@ -405,14 +405,14 @@
 // 属性の並び順（内部キー）。以降のデータ配列はすべてこの順で並んでいる。
 const ATTRS = ['price', 'cacao', 'trait', 'cal', 'fairtrade'];
 
-// 各属性の水準数（価格・カカオ量・効果・カロリーは3水準、フェアトレードは2水準）
+// 各属性の水準数（価格・カカオ量・特性・カロリーは3水準、フェアトレードは2水準）
 const ATTR_LEVELS = { price: 3, cacao: 3, trait: 3, cal: 3, fairtrade: 2 };
 
 // 各属性の水準ラベル（表示用）
 const LEVEL_LABELS = {
   price:      ["100円", "200円", "300円"],
   cacao:      ["30%", "50%", "70%"],
-  trait:     ["集中力が上がる", "睡眠を助ける", "効果なし"],
+  trait:      ["集中力が上がる", "睡眠を助ける", "効果なし"],
   cal:        ["150kcal", "250kcal", "350kcal"],
   fairtrade:  ["なし", "あり"],
 };
@@ -570,7 +570,7 @@ function computeImportance(beta) {
 const ATTRIBUTE_LABELS = {
   price:      '価格',
   cacao:      'カカオ量',
-  trait:     '特定の効果の有無',
+  trait:      '特性',
   cal:        'カロリー',
   fairtrade:  'フェアトレード',
 };
@@ -581,14 +581,14 @@ const ATTRIBUTE_PRIORITY = ['price', 'cacao', 'trait', 'cal', 'fairtrade'];
 // 上位2属性の組み合わせ名（5C2=10通り）。キーは ATTRIBUTE_PRIORITY 順で正規化した「属性1+属性2」。
 const TYPE_NAMES_15 = {
   'price+cacao':      'コスパ濃厚派タイプ',
-  'price+effect':     '効果こだわり節約タイプ',
+  'price+trait':      'コスパ機能性重視タイプ',
   'price+cal':        'ヘルシー節約タイプ',
   'price+fairtrade':  'エシカル節約タイプ',
-  'cacao+effect':     'カカオ効能重視タイプ',
+  'cacao+trait':      '濃厚機能性タイプ',
   'cacao+cal':        '濃厚ヘルシー派タイプ',
   'cacao+fairtrade':  'こだわりカカオ派タイプ',
-  'effect+cal':       '効果・カロリー両立タイプ',
-  'effect+fairtrade': 'エシカル効果重視タイプ',
+  'trait+cal':        '機能性・ヘルシー両立タイプ',
+  'trait+fairtrade':  'エシカル機能性重視タイプ',
   'cal+fairtrade':    'ヘルシー&エシカルタイプ',
 };
 
@@ -621,11 +621,10 @@ function buildRedirectUrl(typeResult) {
   const [key1, key2] = typeResult.typeKey.split('+');
   const ourKey1 = ATTR_KEY_MAP[key1];
   const ourKey2 = ATTR_KEY_MAP[key2];
-  // ラウンド2で「次点に好ましい財」を計算するため、重要視2項目の水準別効用値も
-  // サイト4へ引き継ぐ（rankingは属性ごとに{attr, utils, ...}を持つ配列）。
+  // 「合理的裁量財」計算のため、重要視2項目の水準別効用値もサイト4へ引き継ぐ
   const rankingByAttr = {};
   typeResult.ranking.forEach(function(r){ rankingByAttr[r.attr] = r; });
-  const u1 = rankingByAttr[key1].utils; // 例：ワイン価格なら[水準0,水準1,水準2]の効用
+  const u1 = rankingByAttr[key1].utils;
   const u2 = rankingByAttr[key2].utils;
   // 基準財の抽選（好ましい順にランク付けして中央順位を選ぶ）のため、
   // 全5属性の水準別効用値を、実商品の属性キー(ATTR_KEY_MAP変換後)をキーにしてまとめて渡す。
@@ -645,7 +644,7 @@ function buildRedirectUrl(typeResult) {
 /* =========================================================================
    3. 送信先設定（★Apps Scriptのデプロイ後、ここにURLを貼り付ける★）
    ========================================================================= */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkWwIWaovkOpkjEITJRvqhfH77AdRkjcBjrg8mEVwezEYGr-u9Z3wTtp57ciri9StonA/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
 
 /* =========================================================================
    4. 画面制御・状態管理
@@ -653,7 +652,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkWwIWaovkOpkjEITJR
 /* =========================================================================
    3.5 本システム（サイト1〜4）との連携設定
    ========================================================================= */
-const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver2/";
+const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
 const GOOD_CODE = "chocolate"; // このツール自体が担当する財の内部コード
 
 // このツールの属性キー ⇔ サイト4側の属性キーの対応表
