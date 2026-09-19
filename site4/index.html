@@ -219,8 +219,8 @@
 <script>
 (function(){
 
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbzkWwIWaovkOpkjEITJRvqhfH77AdRkjcBjrg8mEVwezEYGr-u9Z3wTtp57ciri9StonA/exec";
-  const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver2/";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwKFxYRLyyjE_sFdWTnG1h73rH3mv2CKna8_zna0G_U0m7nfYO7FU2E_5gVN3syg4Pl5g/exec";
+  const BASE_URL = "https://tomotakasuye191.github.io/CO-SE-ver1/";
   const COMPLETE_URL = BASE_URL + "complete/index.html";
 
   const GOOD_LABELS = { yogurt:'ヨーグルト', rice:'お米', wine:'ワイン', chocolate:'チョコレート' };
@@ -230,7 +230,7 @@
     yogurt: [['price','価格'],['volume','内容量'],['expiry','消費期限'],['nutrition','栄養情報'],['calorie','カロリー']],
     rice: [['price','価格'],['origin','産地'],['volume','内容量'],['harvest','精米時期'],['polish','精米度合い']],
     wine: [['price','価格'],['origin','ブドウ産地'],['abv','アルコール度数'],['color','色'],['taste','味わい']],
-    chocolate: [['price','価格'],['cacao_percent','カカオ量'],['trait','特定の効果の有無'],['calorie','カロリー'],['fairtrade','フェアトレード']]
+    chocolate: [['price','価格'],['cacao_percent','カカオ量'],['trait','特性'],['calorie','カロリー'],['fairtrade','フェアトレード']]
   };
 
   const COMMON_COUNT = { 5:3, 10:5, 15:8, 20:10 };
@@ -254,8 +254,7 @@
   const hasImage = urlParams.get('hasImage') === '1';
   const otherItem = urlParams.get('otherItem') || null;
 
-  // 重要視2項目（item1, item2）の水準別効用値。「次点に好ましい財」の計算に使う。
-  // 例："2,0,-1" のようなカンマ区切りの数値文字列で渡ってくる。
+  // 「合理的裁量財」計算に使う、重要視2項目の水準別効用値
   function parseUtils(raw){
     if(!raw) return null;
     return raw.split(',').map(Number);
@@ -312,7 +311,7 @@
   }
 
   if(!window.Round2Levels){
-    fail('2回目の実験用データ（round2_levels.js）が読み込めませんでした。<br>' +
+    fail('必要なデータ（round2_levels.js）が読み込めませんでした。<br>' +
          'サーバーに data/round2_levels.js が正しくアップロードされているか確認してください。');
     return;
   }
@@ -532,10 +531,7 @@
 
   // ============================================================
   // ラウンド2：操作あり CO・SE測定
-  // 基準財(base)は、その回のスライドごとに(size+1)個抽選→全5属性の効用で好ましい順に
-  // ランキングし、中央順位の財を基準財とする（pickBaseAndCandidates）。似せる基準
-  // （アンカー）は、ラウンド1の結果とは無関係に、コンジョイント結果から求めた
-  // 「次点に好ましい財」（提示候補の中で最もスコアが高い財）を使う。
+  // 各サイズの左固定財は、ラウンド1の「そのサイズでの選択結果」に差し替える
   // ============================================================
   function nextRound2Slide(){
     if(remainingSizes2.length === 0){
@@ -546,31 +542,20 @@
     renderRound2Slide(size);
   }
 
-  // 提示候補1件のスコア（重要視2項目の水準別効用値の合計）を計算する。
-  // 対応する水準が無い属性は寄与0として扱う。
-  function candidateScore(p){
-    return window.Round2Levels.utilFor(good, p, item1, u1) +
-           window.Round2Levels.utilFor(good, p, item2, u2);
-  }
-
   function renderRound2Slide(size){
-    // 候補は「2回目CO用の新20商品」から出す。
-    // ラウンド1の結果は使わない：この被験者のコンジョイント結果（重要視2項目の
-    // 水準別効用値）から見て、提示候補の中で最もスコアが高い財＝「合理的なら必ず
-    // 選ぶはずの財」を求め、これを「次点に好ましい財」としてアンカー（似せる基準）にする。
+    // 基準財は、この回もラウンド1と同様に(size+1)個抽選→全5属性の効用でランキング→
+    // 中央順位を基準財とする方式に統一する。
+    // ラウンド1の「維持/乗り換え」は、似せる財の基準(アンカー)をどう選ぶかにのみ使っていたが、
+    // 「乗り換え先を候補に強制的に混ぜる」処理は今回のランキング方式と両立できないため、
+    // 維持・乗り換えのどちらの場合も、新しい候補の中からランダムに1つをアンカーとする方式に統一する。
+    const round1Rec = round1Records.find(function(r){ return r.size === size; });
+    const isKept = round1Rec.kept;
     const pool2 = window.PRODUCTS_ROUND2[good].slice();
     const picked = pickBaseAndCandidates(pool2, size);
     const baseItem = picked.base;
     const presented = picked.candidates;
 
-    let bestScore = -Infinity, bestCandidates = [];
-    presented.forEach(function(p){
-      const s = candidateScore(p);
-      if(s > bestScore){ bestScore = s; bestCandidates = [p]; }
-      else if(s === bestScore){ bestCandidates.push(p); }
-    });
-    // 同点の場合はランダムに1つを選ぶ
-    const anchor = bestCandidates[Math.floor(Math.random() * bestCandidates.length)];
+    const anchor = presented[Math.floor(Math.random() * presented.length)];
     const sourceItem = anchor;
 
     const commonCount = COMMON_COUNT[size];
@@ -578,11 +563,11 @@
     const commonSet = new Set([anchor.id].concat(sampleN(restForCommon, commonCount - 1).map(function(p){ return p.id; })));
 
     // 「合理的裁量財」：基準財より合理的に必ず好ましいはずの財を、
-    // アンカー・似せた財(commonSet)の枠とは完全に別の枠に必ず1つ含める。
+    // 似せる財(commonSet)の枠とは完全に別の枠に必ず1つ含める。
     let mandatory = null;
     if(u1 && u2 && window.Round2Levels){
       const protectedIds = Array.from(commonSet);
-      mandatory = window.Round2Levels.findMandatoryItem(good, item1, item2, u1, u2, baseItem, pool2, presented, protectedIds, anchor);
+      mandatory = window.Round2Levels.findMandatoryItem(good, item1, item2, u1, u2, baseItem, pool2, presented, protectedIds, sourceItem);
       if(mandatory && mandatory.replace){
         presented[mandatory.replaceIndex] = mandatory.replaceWith;
       }
@@ -658,7 +643,7 @@
           baseName: baseItem.name,
           anchorId: anchor.id,
           anchorName: anchor.name,
-          anchorScore: bestScore,
+          anchorWasForced: false,
           mandatoryId: mandatory ? mandatory.id : null,
           mandatoryName: mandatory ? mandatory.name : null,
           mandatoryOverridden: mandatory ? mandatory.overridden : false,
@@ -715,8 +700,7 @@
     const round1Payload = {
       slideOrder: round1Records.map(function(r){ return r.size; }),
       results: {},
-      mandatory: {},
-      base: {}
+      mandatory: {}
     };
     round1Records.forEach(function(r){
       round1Payload.results[r.size] = { kept: r.kept, chosenId: r.chosenId, chosenName: r.chosenName };
@@ -726,21 +710,19 @@
         mandatoryOverridden: r.mandatoryOverridden,
         mandatoryChosen: r.mandatoryChosen
       };
-      round1Payload.base[r.size] = { baseId: r.baseId, baseName: r.baseName };
     });
 
     const round2Payload = {
       slideOrder: round2Records.map(function(r){ return r.size; }),
       results: {},
-      commonality: {},
-      base: {}
+      commonality: {}
     };
     round2Records.forEach(function(r){
       round2Payload.results[r.size] = { kept: r.kept, chosenId: r.chosenId, chosenName: r.chosenName };
       round2Payload.commonality[r.size] = {
         anchorId: r.anchorId,
         anchorName: r.anchorName,
-        anchorScore: r.anchorScore,
+        anchorWasForced: r.anchorWasForced,
         mandatoryId: r.mandatoryId,
         mandatoryName: r.mandatoryName,
         mandatoryOverridden: r.mandatoryOverridden,
@@ -750,12 +732,12 @@
         presentedIds: r.presentedIds,
         overrideFields: r.overrideFields
       };
-      round2Payload.base[r.size] = { baseId: r.baseId, baseName: r.baseName };
     });
 
     const payload = {
       action: 'submitCO',
       id: id, good: good,
+      baseId: baseItem.id, baseName: baseItem.name,
       round1: round1Payload,
       round2: round2Payload
     };
@@ -817,11 +799,6 @@
   }
 
   // ---- 開始 ----
-  function startExperiment(){
-    remainingSizes = shuffle(SIZES);
-    nextRound1Slide();
-  }
-
   // 直前のセッションで送信に失敗した回答が残っていれば、まずそれを再送信する
   const pendingRaw = sessionStorage.getItem('experiment_pendingCO_' + good);
   if(pendingRaw){
@@ -832,10 +809,10 @@
       sendCOPayload(pendingPayload);
     }catch(e){
       sessionStorage.removeItem('experiment_pendingCO_' + good);
-      startExperiment();
+      renderIntro();
     }
   } else {
-    startExperiment();
+    renderIntro();
   }
 
 })();
